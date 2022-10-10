@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "allowJs": false,
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "noErrorTruncation": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "removeComments": true,
+    "rootDir": ".",
+    "baseUrl": ".",
+    "sourceMap": false,
+    "strict": true,
+    "target": "ESNext",
+    "typeRoots": [
+      "./maze",
+      "./node_modules/@types",
+      "maze",
+      "node_modules/@types"
+    ]
+  },
+  "include": [
+    "./**.ts*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "public",
+    "tsc-build"
+  ]
+}

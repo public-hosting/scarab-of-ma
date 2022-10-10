@@ -1,0 +1,54 @@
+# Project specific
+metadata/
+public/
+node_modules/
+tsc-build/
+_assets
+
+# Production
+dist
+
+# Logs
+*.log
+.history
+
+# Webstorm/PHPStorm
+/.idea
+
+# OSX
+.DS_Store
+
+# Vim
+*~
+
+# Sublime
+*.sublime*
+*.code-workspace
+
+*.tar
+**/coverage/
+
+.vscode
+*.code-workspace
+
+.tmp/
+jirabas.config.local.ts
+
+# local version of configs
+**/configs/**/*.local.ts
+
+# local server certificates
+**/configs/**/*.pem
+
+# Git tmp files
+*.orig
+
+# IDE graphql plugin configs
+**/.graphqlconfig
+
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
