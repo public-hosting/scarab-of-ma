@@ -1,5 +1,6 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import 'lib/flatMap';
 import { Root } from './pages/Root/Root';
 
 const rootNode = document.getElementById('root');

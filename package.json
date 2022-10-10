@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "start": "yarn build --servedir=public",
-    "build": "esbuild src/index.tsx --bundle --minify --sourcemap --outfile=public/bundle.js",
+    "build": "esbuild src/index.tsx --bundle --define:process.env.NODE_ENV=\"'production'\" --minify --sourcemap --target=chrome100,ios11 --outfile=public/bundle.js",
     "tsc": "tsc",
     "ts-node": "ts-node-esm --transpileOnly"
   },

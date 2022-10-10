@@ -11,11 +11,11 @@ export type TWall = {
   type: TWallType;
 };
 
-export type TWallLocation = 'west' | 'east' | 'north' | 'south';
+export type TOrientation = 'west' | 'east' | 'north' | 'south';
 
 export type TCell = TCoords & {
   walls: {
-    [key in TWallLocation]: TWall | null;
+    [key in TOrientation]: TWall | null;
   };
 };
 
@@ -72,7 +72,7 @@ function fillCells(size: number): TMaze {
   };
 }
 
-const OPPOSITE_LOCATION: { [key in TWallLocation]: TWallLocation } = {
+const OPPOSITE_LOCATION: { [key in TOrientation]: TOrientation } = {
   north: 'south',
   south: 'north',
   east: 'west',
@@ -92,7 +92,7 @@ export function createMazePaths(maze: TMaze): TMaze {
       south: getNeighborSouth(currentCell, maze),
       east: getNeighborEast(currentCell, maze),
       west: getNeighborWest(currentCell, maze),
-    }) as [TWallLocation, TCell | null][];
+    }) as [TOrientation, TCell | null][];
     const nonVisitedNeighbors = neighbors.flatMap(([side, cell]) =>
       cell && !visitedCells.has(cell) ? [{ side, cell }] : [],
     );
