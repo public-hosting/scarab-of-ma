@@ -1,85 +1,11 @@
-import { Fragment } from 'react';
+import { Fragment, KeyboardEvent, useState } from 'react';
 import { Cell } from 'components/Cell/Cell';
-import { createMaze, TCell, TCoords, TMaze, TOrientation } from 'lib/maze';
-import { createPlayer, TPlayer } from 'lib/player';
+import { createMaze, TCoords } from 'lib/maze';
+import { createPlayer, turnPlayer, movePlayer } from 'lib/player';
+import { getViewportCells } from 'lib/viewport';
 
 const maze = createMaze(4);
-const player = createPlayer();
-
-const ROTATION: {
-  [key in TOrientation]: { [key in TOrientation]: TOrientation };
-} = {
-  north: {
-    north: 'south',
-    south: 'north',
-    west: 'east',
-    east: 'west',
-  },
-  south: {
-    north: 'north',
-    south: 'south',
-    west: 'west',
-    east: 'east',
-  },
-  west: {
-    north: 'east',
-    south: 'west',
-    west: 'north',
-    east: 'south',
-  },
-  east: {
-    north: 'west',
-    south: 'east',
-    west: 'south',
-    east: 'north',
-  },
-};
-
-function orientCell(cell: TCell, orientation: TOrientation): TCell {
-  return {
-    ...cell,
-    walls: {
-      [ROTATION[orientation].north]: cell.walls.north,
-      [ROTATION[orientation].south]: cell.walls.south,
-      [ROTATION[orientation].east]: cell.walls.east,
-      [ROTATION[orientation].west]: cell.walls.west,
-    },
-  };
-}
-
-/**
- *
- *
- *
- */
-function getViewportCells(player: TPlayer, maze: TMaze): (TCell | null)[][] {
-  const {
-    position: { x: playerX, y: playerY },
-  } = player;
-
-  const centralCell = maze.cells[playerY][playerX];
-
-  function getCell(dY: number, dX: number): TCell | null {
-    const yIndex = playerY + dY;
-    const xIndex = playerX + dX;
-    if (
-      yIndex < 0 ||
-      xIndex < 0 ||
-      yIndex >= maze.size ||
-      xIndex >= maze.size
-    ) {
-      return null;
-    }
-
-    return orientCell(maze.cells[yIndex][xIndex], player.orientation);
-  }
-
-  return [
-    [getCell(2, 1), getCell(2, 0), getCell(2, -1)],
-    [getCell(1, 1), getCell(1, 0), getCell(1, -1)],
-    [getCell(0, 1), getCell(0, 0), getCell(0, -1)],
-  ];
-}
+const initialPlayer = createPlayer();
 
 // prettier-ignore
 const DISPLAY: TCoords[][] = [
@@ -89,7 +15,38 @@ const DISPLAY: TCoords[][] = [
 ];
 
 export const Root = () => {
+  const [player, setPlayer] = useState(initialPlayer);
   const viewportCells = getViewportCells(player, maze);
+
+  const handleTurnLeft = () => {
+    setPlayer(turnPlayer(player, -1));
+  };
+
+  const handleTurnRight = () => {
+    setPlayer(turnPlayer(player, 1));
+  };
+
+  const handleGoForward = () => {
+    setPlayer(movePlayer(player, maze, 1));
+  };
+
+  const handleGoBackward = () => {
+    setPlayer(movePlayer(player, maze, -1));
+  };
+
+  const handleKeyPress = (event: KeyboardEvent) => {
+    event.preventDefault();
+
+    if (event.key === 'ArrowLeft') {
+      handleTurnLeft();
+    } else if (event.key === 'ArrowRight') {
+      handleTurnRight();
+    } else if (event.key === 'ArrowUp') {
+      handleGoForward();
+    } else if (event.key === 'ArrowDown') {
+      handleGoBackward();
+    }
+  };
 
   return (
     <>
@@ -104,6 +61,35 @@ export const Root = () => {
           ))}
         </Fragment>
       ))}
+      <div className="controls">
+        <input
+          className="controls__capture"
+          onKeyDown={handleKeyPress}
+          tabIndex={-1}
+          autoFocus={true}
+        />
+        <button
+          type="button"
+          className="controls__item"
+          onClick={handleTurnLeft}
+        >
+          {'<'}
+        </button>
+        <button
+          type="button"
+          className="controls__item"
+          onClick={handleGoForward}
+        >
+          ^
+        </button>
+        <button
+          type="button"
+          className="controls__item"
+          onClick={handleTurnRight}
+        >
+          {'>'}
+        </button>
+      </div>
     </>
   );
 };
