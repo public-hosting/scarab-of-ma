@@ -1,8 +1,8 @@
-import { TCell, TCoords, TOrientation } from 'lib/maze';
 import { CSSProperties } from 'react';
+import { TCell, TCoords, TOrientation } from 'lib/maze';
 
 type TCellProps = {
-  cell: TCell;
+  cell: TCell | null;
   position: TCoords;
 };
 
@@ -41,9 +41,15 @@ const TRANSFORM_BY_FACE: {
 };
 
 export const Cell = (props: TCellProps) => {
-  const { position } = props;
+  const { position, cell } = props;
 
-  function getFaceTransform(orientation: TFaceType): CSSProperties {
+  if (!cell) {
+    return null;
+  }
+
+  const isCamera = position.x === 0 && position.y === 0;
+
+  function getFaceStyle(orientation: TFaceType): CSSProperties {
     return {
       transform: TRANSFORM_BY_FACE[orientation](position),
     };
@@ -51,12 +57,20 @@ export const Cell = (props: TCellProps) => {
 
   return (
     <>
-      <div className="face" style={getFaceTransform('floor')} />
-      <div className="face" style={getFaceTransform('ceiling')} />
-      <div className="face" style={getFaceTransform('north')} />
-      {false && <div className="face" style={getFaceTransform('south')} />}
-      <div className="face" style={getFaceTransform('east')} />
-      <div className="face" style={getFaceTransform('west')} />
+      <div className="face" style={getFaceStyle('floor')} />
+      <div className="face" style={getFaceStyle('ceiling')} />
+      {cell?.walls.north && (
+        <div className="face" style={getFaceStyle('north')} />
+      )}
+      {!isCamera && cell?.walls.south && (
+        <div className="face" style={getFaceStyle('south')} />
+      )}
+      {cell?.walls.east && (
+        <div className="face" style={getFaceStyle('east')} />
+      )}
+      {cell?.walls.west && (
+        <div className="face" style={getFaceStyle('west')} />
+      )}
     </>
   );
 };
