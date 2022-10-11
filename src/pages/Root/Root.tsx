@@ -1,5 +1,6 @@
 import { Fragment, KeyboardEvent, useState } from 'react';
 import { Cell } from 'components/Cell/Cell';
+import { Map } from 'components/Map/Map';
 import { createMaze, TCoords } from 'lib/maze';
 import { createPlayer, turnPlayer, movePlayer } from 'lib/player';
 import { getViewportCells } from 'lib/viewport';
@@ -61,6 +62,7 @@ export const Root = () => {
           ))}
         </Fragment>
       ))}
+      <Map player={player} maze={maze} />
       <div className="controls">
         <input
           className="controls__capture"
