@@ -5,28 +5,28 @@ const ROTATION: {
   [key in TOrientation]: { [key in TOrientation]: TOrientation };
 } = {
   north: {
-    north: 'south',
-    south: 'north',
-    west: 'east',
-    east: 'west',
-  },
-  south: {
     north: 'north',
     south: 'south',
     west: 'west',
     east: 'east',
   },
-  west: {
-    north: 'east',
-    south: 'west',
-    west: 'north',
-    east: 'south',
+  south: {
+    north: 'south',
+    south: 'north',
+    west: 'east',
+    east: 'west',
   },
-  east: {
+  west: {
     north: 'west',
     south: 'east',
     west: 'south',
     east: 'north',
+  },
+  east: {
+    north: 'east',
+    south: 'west',
+    west: 'north',
+    east: 'south',
   },
 };
 
@@ -34,10 +34,10 @@ export function orientCell(cell: TCell, orientation: TOrientation): TCell {
   return {
     ...cell,
     walls: {
-      [ROTATION[orientation].north]: cell.walls.north,
-      [ROTATION[orientation].south]: cell.walls.south,
-      [ROTATION[orientation].east]: cell.walls.east,
-      [ROTATION[orientation].west]: cell.walls.west,
+      north: cell.walls[ROTATION[orientation].north],
+      south: cell.walls[ROTATION[orientation].south],
+      west: cell.walls[ROTATION[orientation].west],
+      east: cell.walls[ROTATION[orientation].east],
     },
   };
 }
@@ -61,17 +61,10 @@ export function getViewportCells(player: TPlayer, maze: TMaze): (TCell | null)[]
     }
 
     return orientCell(maze.cells[yIndex][xIndex], orientation);
+    // return maze.cells[yIndex][xIndex]
   }
 
   if (orientation === 'north') {
-    return [
-      [getCell(2, 1), getCell(2, 0), getCell(2, -1)],
-      [getCell(1, 1), getCell(1, 0), getCell(1, -1)],
-      [getCell(0, 1), getCell(0, 0), getCell(0, -1)],
-    ];
-  }
-
-  if (orientation === 'south') {
     return [
       [getCell(-2, -1), getCell(-2, 0), getCell(-2, 1)],
       [getCell(-1, -1), getCell(-1, 0), getCell(-1, 1)],
@@ -79,19 +72,27 @@ export function getViewportCells(player: TPlayer, maze: TMaze): (TCell | null)[]
     ];
   }
 
+  if (orientation === 'south') {
+    return [
+      [getCell(2, 1), getCell(2, 0), getCell(2, -1)],
+      [getCell(1, 1), getCell(1, 0), getCell(1, -1)],
+      [getCell(0, 1), getCell(0, 0), getCell(0, -1)],
+    ];
+  }
+
   if (orientation === 'east') {
     return [
-      [getCell(-1, -2), getCell(0, -2), getCell(1, -2)],
-      [getCell(-1, -1), getCell(0, -1), getCell(1, -1)],
+      [getCell(-1, 2), getCell(0, 2), getCell(1, 2)],
+      [getCell(-1, 1), getCell(0, 1), getCell(1, 1)],
       [getCell(-1, 0), getCell(0, 0), getCell(1, 0)],
     ];
   }
 
   if (orientation === 'west') {
     return [
-      [getCell(-1, 2), getCell(0, 2), getCell(1, 2)],
-      [getCell(-1, 1), getCell(0, 1), getCell(1, 1)],
-      [getCell(-1, 0), getCell(0, 0), getCell(1, 0)],
+      [getCell(1, -2), getCell(0, -2), getCell(-1, -2)],
+      [getCell(1, -1), getCell(0, -1), getCell(-1, -1)],
+      [getCell(1, 0), getCell(0, 0), getCell(-1, 0)],
     ];
   }
 

@@ -20,11 +20,11 @@ export const Root = () => {
   const viewportCells = getViewportCells(player, maze);
 
   const handleTurnLeft = () => {
-    setPlayer(turnPlayer(player, 1));
+    setPlayer(turnPlayer(player, -1));
   };
 
   const handleTurnRight = () => {
-    setPlayer(turnPlayer(player, -1));
+    setPlayer(turnPlayer(player, 1));
   };
 
   const handleGoForward = () => {

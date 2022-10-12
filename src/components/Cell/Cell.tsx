@@ -60,16 +60,16 @@ export const Cell = (props: TCellProps) => {
       {/*<div className="face" style={getFaceStyle('floor')} />*/}
       {/*<div className="face" style={getFaceStyle('ceiling')} />*/}
       {cell?.walls.north && (
-        <div className="face" style={getFaceStyle('north')} />
+        <div className="face" data-x={cell.x} data-y={cell.y} style={getFaceStyle('north')} />
       )}
       {!isCamera && cell?.walls.south && (
-        <div className="face" style={getFaceStyle('south')} />
+        <div className="face" data-x={cell.x} data-y={cell.y} style={getFaceStyle('south')} />
       )}
       {cell?.walls.east && (
-        <div className="face" style={getFaceStyle('east')} />
+        <div className="face" data-x={cell.x} data-y={cell.y} style={getFaceStyle('east')} />
       )}
       {cell?.walls.west && (
-        <div className="face" style={getFaceStyle('west')} />
+        <div className="face" data-x={cell.x} data-y={cell.y} style={getFaceStyle('west')} />
       )}
     </>
   );

@@ -72,7 +72,7 @@ function fillCells(size: number): TMaze {
   };
 }
 
-const OPPOSITE_LOCATION: { [key in TOrientation]: TOrientation } = {
+export const OPPOSITE_LOCATION: { [key in TOrientation]: TOrientation } = {
   north: 'south',
   south: 'north',
   east: 'west',

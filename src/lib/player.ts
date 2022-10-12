@@ -1,5 +1,4 @@
-import { TCoords, TMaze, TOrientation } from './maze';
-import { orientCell } from './viewport';
+import { TCoords, TMaze, TOrientation, OPPOSITE_LOCATION } from './maze';
 
 export type TPlayer = {
   orientation: TOrientation;
@@ -8,7 +7,7 @@ export type TPlayer = {
 
 export function createPlayer(): TPlayer {
   return {
-    orientation: 'north',
+    orientation: 'south',
     position: {
       x: 0,
       y: 0,
@@ -39,15 +38,22 @@ const FORWARD_DELTA: { [key in TOrientation]: TCoords } = {
   west: { x: -1, y: 0 },
 };
 
-export function movePlayer(player: TPlayer, maze: TMaze, delta: number): TPlayer {
+export function movePlayer(
+  player: TPlayer,
+  maze: TMaze,
+  delta: number,
+): TPlayer {
   const { position, orientation } = player;
 
   // const currentCell = orientCell(maze.cells[position.y][position.x], orientation);
   const currentCell = maze.cells[position.y][position.x];
 
-  // if (currentCell.walls[orientation]) {
-  //   return player;
-  // }
+  if (
+    (delta > 0 && currentCell.walls[orientation]) ||
+    (delta < 0 && currentCell.walls[OPPOSITE_LOCATION[orientation]])
+  ) {
+    return player;
+  }
 
   const orientationVector = FORWARD_DELTA[orientation];
 
