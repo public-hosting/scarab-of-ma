@@ -33,10 +33,10 @@ export function turnPlayer(player: TPlayer, delta: number): TPlayer {
 }
 
 const FORWARD_DELTA: { [key in TOrientation]: TCoords } = {
-  north: { x: 0, y: 1 },
-  south: { x: 0, y: -1 },
-  east: { x: -1, y: 0 },
-  west: { x: 1, y: 0 },
+  north: { x: 0, y: -1 },
+  south: { x: 0, y: 1 },
+  east: { x: 1, y: 0 },
+  west: { x: -1, y: 0 },
 };
 
 export function movePlayer(player: TPlayer, maze: TMaze, delta: number): TPlayer {

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { TMaze } from 'lib/maze';
+import { TCoords, TMaze, TOrientation } from 'lib/maze';
 import { TPlayer } from 'lib/player';
 
 type TMapProps = {
@@ -9,6 +9,13 @@ type TMapProps = {
 
 const CELL_SIZE = 40;
 const WALL_WIDTH = 2;
+
+const ORIENTATION_VECTOR: { [key in TOrientation]: TCoords } = {
+  north: { x: 0, y: -1 },
+  south: { x: 0, y: 1 },
+  east: { x: 1, y: 0 },
+  west: { x: -1, y: 0 },
+};
 
 export const Map = (props: TMapProps) => {
   const { maze, player } = props;
@@ -62,12 +69,29 @@ export const Map = (props: TMapProps) => {
           });
         });
 
+        const playerCenterX = player.position.x * CELL_SIZE + CELL_SIZE / 2;
+        const playerCenterY = player.position.y * CELL_SIZE + CELL_SIZE / 2;
+
         ctx.fillRect(
-          player.position.x * CELL_SIZE + (CELL_SIZE / 2 - WALL_WIDTH),
-          player.position.y * CELL_SIZE + (CELL_SIZE / 2 - WALL_WIDTH),
+          playerCenterX - WALL_WIDTH,
+          playerCenterY - WALL_WIDTH,
           WALL_WIDTH * 2,
           WALL_WIDTH * 2,
         );
+
+        const orientationVector = ORIENTATION_VECTOR[player.orientation];
+        ctx.beginPath();
+        ctx.arc(
+          playerCenterX + (orientationVector.x * CELL_SIZE) / 3,
+          playerCenterY + (orientationVector.y * CELL_SIZE) / 3,
+          WALL_WIDTH * 2,
+          0,
+          2 * Math.PI,
+        );
+        ctx.fillStyle = 'green';
+        ctx.fill();
+        ctx.fillStyle = 'black';
+        ctx.closePath();
       }
     }
   }, [maze, player]);

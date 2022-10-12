@@ -57,8 +57,8 @@ export const Cell = (props: TCellProps) => {
 
   return (
     <>
-      <div className="face" style={getFaceStyle('floor')} />
-      <div className="face" style={getFaceStyle('ceiling')} />
+      {/*<div className="face" style={getFaceStyle('floor')} />*/}
+      {/*<div className="face" style={getFaceStyle('ceiling')} />*/}
       {cell?.walls.north && (
         <div className="face" style={getFaceStyle('north')} />
       )}
