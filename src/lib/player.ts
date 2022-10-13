@@ -1,4 +1,10 @@
-import { TCoords, TMaze, TOrientation, OPPOSITE_LOCATION } from './maze';
+import { TCoords, TMaze } from './maze';
+import {
+  TOrientation,
+  OPPOSITE_SIDE,
+  getNextSide,
+  TRotation,
+} from './orientation';
 
 export type TPlayer = {
   orientation: TOrientation;
@@ -15,19 +21,10 @@ export function createPlayer(): TPlayer {
   };
 }
 
-const TURN_ORDER: TOrientation[] = ['north', 'east', 'south', 'west'];
-
-export function turnPlayer(player: TPlayer, delta: number): TPlayer {
-  let nextSideIndex = TURN_ORDER.indexOf(player.orientation) + delta;
-  if (nextSideIndex >= TURN_ORDER.length) {
-    nextSideIndex = nextSideIndex % TURN_ORDER.length;
-  } else if (nextSideIndex < 0) {
-    nextSideIndex = TURN_ORDER.length + (nextSideIndex % TURN_ORDER.length);
-  }
-
+export function turnPlayer(player: TPlayer, direction: TRotation): TPlayer {
   return {
     ...player,
-    orientation: TURN_ORDER[nextSideIndex],
+    orientation: getNextSide(player.orientation, direction),
   };
 }
 
@@ -45,12 +42,11 @@ export function movePlayer(
 ): TPlayer {
   const { position, orientation } = player;
 
-  // const currentCell = orientCell(maze.cells[position.y][position.x], orientation);
   const currentCell = maze.cells[position.y][position.x];
 
   if (
     (delta > 0 && currentCell.walls[orientation]) ||
-    (delta < 0 && currentCell.walls[OPPOSITE_LOCATION[orientation]])
+    (delta < 0 && currentCell.walls[OPPOSITE_SIDE[orientation]])
   ) {
     return player;
   }

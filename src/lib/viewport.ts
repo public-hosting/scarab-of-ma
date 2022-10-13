@@ -1,4 +1,5 @@
-import { TCell, TMaze, TOrientation } from './maze';
+import { TCell, TMaze } from './maze';
+import { TOrientation } from './orientation';
 import { TPlayer } from './player';
 
 const ROTATION: {

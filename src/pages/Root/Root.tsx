@@ -20,11 +20,11 @@ export const Root = () => {
   const viewportCells = getViewportCells(player, maze);
 
   const handleTurnLeft = () => {
-    setPlayer(turnPlayer(player, -1));
+    setPlayer(turnPlayer(player, 'ccw'));
   };
 
   const handleTurnRight = () => {
-    setPlayer(turnPlayer(player, 1));
+    setPlayer(turnPlayer(player, 'cw'));
   };
 
   const handleGoForward = () => {
@@ -51,13 +51,19 @@ export const Root = () => {
 
   return (
     <>
-      {DISPLAY.map((row, rowIndex) => (
-        <Fragment key={rowIndex}>
-          {row.map((cellPosition, cellIndex) => (
+      {DISPLAY.map((row, y) => (
+        <Fragment key={y}>
+          {row.map((cellPosition, x) => (
             <Cell
-              key={cellIndex}
-              cell={viewportCells[rowIndex][cellIndex]}
+              key={x}
+              cell={viewportCells[y][x]}
               position={cellPosition}
+              neighbors={{
+                north: viewportCells[y - 1]?.[x] || null,
+                south: viewportCells[y + 1]?.[x] || null,
+                east: viewportCells[y]?.[x + 1] || null,
+                west: viewportCells[y]?.[x - 1] || null,
+              }}
             />
           ))}
         </Fragment>

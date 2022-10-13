@@ -1,4 +1,5 @@
 import { times } from './utils';
+import { TOrientation, OPPOSITE_SIDE } from './orientation';
 
 export type TCoords = {
   x: number;
@@ -10,8 +11,6 @@ export type TWallType = 'plain' | 'exit';
 export type TWall = {
   type: TWallType;
 };
-
-export type TOrientation = 'west' | 'east' | 'north' | 'south';
 
 export type TCell = TCoords & {
   walls: {
@@ -72,13 +71,6 @@ function fillCells(size: number): TMaze {
   };
 }
 
-export const OPPOSITE_LOCATION: { [key in TOrientation]: TOrientation } = {
-  north: 'south',
-  south: 'north',
-  east: 'west',
-  west: 'east',
-};
-
 export function createMazePaths(maze: TMaze): TMaze {
   const startCell: TCell = maze.cells[0][0];
   const visitedCells = new Set<TCell>([startCell]);
@@ -109,7 +101,7 @@ export function createMazePaths(maze: TMaze): TMaze {
     const randomNeighbor = nonVisitedNeighbors[randomNeighborIndex];
 
     currentCell.walls[randomNeighbor.side] = null;
-    randomNeighbor.cell.walls[OPPOSITE_LOCATION[randomNeighbor.side]] = null;
+    randomNeighbor.cell.walls[OPPOSITE_SIDE[randomNeighbor.side]] = null;
     visitedCells.add(randomNeighbor.cell);
 
     stack.push(randomNeighbor.cell);
