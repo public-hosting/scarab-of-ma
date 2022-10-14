@@ -3,21 +3,15 @@ import { Cell } from 'components/Cell/Cell';
 import { Map } from 'components/Map/Map';
 import { createMaze, TCoords } from 'lib/maze';
 import { createPlayer, turnPlayer, movePlayer } from 'lib/player';
-import { getViewportCells } from 'lib/viewport';
+import { createDisplay, getViewportCells } from 'lib/viewport';
 
-const maze = createMaze(4);
+const maze = createMaze(6);
 const initialPlayer = createPlayer();
-
-// prettier-ignore
-const DISPLAY: TCoords[][] = [
-  [{ x: -1, y: -2 }, { x: 0, y: -2 }, { x: 1, y: -2 }],
-  [{ x: -1, y: -1 }, { x: 0, y: -1 }, { x: 1, y: -1 }],
-  [{ x: -1, y: 0 }, { x: 0, y: 0 }, { x: 1, y: 0 }],
-];
+const display = createDisplay({ y: 4, x: 5});
 
 export const Root = () => {
   const [player, setPlayer] = useState(initialPlayer);
-  const viewportCells = getViewportCells(player, maze);
+  const viewportCells = getViewportCells(player, maze, display);
 
   const handleTurnLeft = () => {
     setPlayer(turnPlayer(player, 'ccw'));
@@ -51,7 +45,7 @@ export const Root = () => {
 
   return (
     <>
-      {DISPLAY.map((row, y) => (
+      {display.map((row, y) => (
         <Fragment key={y}>
           {row.map((cellPosition, x) => (
             <Cell

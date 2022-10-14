@@ -1,0 +1,131 @@
+/**
+ * RESET
+ * ---------------------------------------------------------------------------
+ */
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Remove default margin */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+}
+
+/* Set core root defaults */
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+/* Set core body defaults */
+body {
+  min-height: 100vh;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+}
+
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+}
+
+/* Make images easier to work with */
+img,
+picture {
+  max-width: 100%;
+  display: block;
+}
+
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/**
+ * APP STYLES
+ * ---------------------------------------------------------------------------
+ */
+
+html, body, #root {
+  overflow: hidden;
+}
+
+#root {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  perspective: 256px;
+  overflow: hidden;
+  background: azure;
+}
+
+.cell {
+  transform-style: preserve-3d;
+}
+
+.face {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: -50vh;
+  width: 100vh;
+  height: 100vh;
+  border: 8px solid #000;
+  background: #fff;
+  /*opacity: 0.2;*/
+}
+
+.controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 30px;
+  text-align: center;
+}
+
+.controls__capture {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.controls__item {
+  padding: 10px;
+  margin: 10px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.map {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  width: 100px;
+  height: 100px;
+  background: #fff;
+  z-index: 20;
+}

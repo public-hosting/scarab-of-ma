@@ -1,6 +1,7 @@
-import { TCell, TMaze } from './maze';
+import { TCell, TCoords, TMaze } from './maze';
 import { TOrientation } from './orientation';
 import { TPlayer } from './player';
+import { times } from './utils';
 
 const ROTATION: {
   [key in TOrientation]: { [key in TOrientation]: TOrientation };
@@ -43,11 +44,50 @@ export function orientCell(cell: TCell, orientation: TOrientation): TCell {
   };
 }
 
-export function getViewportCells(player: TPlayer, maze: TMaze): (TCell | null)[][] {
+// function transpose<T>(matrix: T[][]): T[][] {
+//   const rows = matrix.length;
+//   const cols = matrix[0].length;
+//   const grid = [];
+//
+//   for (let j = 0; j < cols; j++) {
+//     grid[j] = Array(rows);
+//   }
+//
+//   for (let i = 0; i < rows; i++) {
+//     for (let j = 0; j < cols; j++) {
+//       grid[j][i] = matrix[i][j];
+//     }
+//   }
+//
+//   return grid;
+// }
+//
+// function reverseEachRow<T>(matrix: T[][]): T[][] {
+//   return matrix.map(row => row.reverse());
+// }
+//
+// function reverseEachCol<T>(matrix: T[][]): T[][] {
+//   return matrix.reverse();
+// }
+//
+// function pickMatrix<T>(start: TCoords, size: TCoords, source: T[][]): (T | null)[][] {
+//   return times(size.y, y =>
+//     times(size.x, x => source[start.y + y]?.[start.x + x]) || null,
+//   );
+// }
+
+export function getViewportCells(
+  player: TPlayer,
+  maze: TMaze,
+  _display: TDisplay,
+): (TCell | null)[][] {
   const {
     position: { x: playerX, y: playerY },
     orientation,
   } = player;
+
+  // const displaySizeY = display.length;
+  // const displaySizeX = display[0].length;
 
   function getCell(dY: number, dX: number): TCell | null {
     const yIndex = playerY + dY;
@@ -66,36 +106,68 @@ export function getViewportCells(player: TPlayer, maze: TMaze): (TCell | null)[]
   }
 
   if (orientation === 'north') {
+    // prettier-ignore
     return [
-      [getCell(-2, -1), getCell(-2, 0), getCell(-2, 1)],
-      [getCell(-1, -1), getCell(-1, 0), getCell(-1, 1)],
-      [getCell(0, -1), getCell(0, 0), getCell(0, 1)],
+      [getCell(-3, -2), getCell(-3, -1), getCell(-3, 0), getCell(-3, 1), getCell(-3, 2)],
+      [getCell(-2, -2), getCell(-2, -1), getCell(-2, 0), getCell(-2, 1), getCell(-2, 2)],
+      [getCell(-1, -2), getCell(-1, -1), getCell(-1, 0), getCell(-1, 1), getCell(-1, 2)],
+      [getCell(0, -2),  getCell(0, -1), getCell(0, 0), getCell(0, 1), getCell(0, 2)],
     ];
   }
 
   if (orientation === 'south') {
+    // prettier-ignore
     return [
-      [getCell(2, 1), getCell(2, 0), getCell(2, -1)],
-      [getCell(1, 1), getCell(1, 0), getCell(1, -1)],
-      [getCell(0, 1), getCell(0, 0), getCell(0, -1)],
+      [getCell(3, 2), getCell(3, 1), getCell(3, 0), getCell(3, -1), getCell(3, -2)],
+      [getCell(2, 2), getCell(2, 1), getCell(2, 0), getCell(2, -1), getCell(2, -2)],
+      [getCell(1, 2), getCell(1, 1), getCell(1, 0), getCell(1, -1), getCell(1, -2)],
+      [getCell(0, 2), getCell(0, 1), getCell(0, 0), getCell(0, -1), getCell(0, -2)],
     ];
   }
 
   if (orientation === 'east') {
+    // prettier-ignore
     return [
-      [getCell(-1, 2), getCell(0, 2), getCell(1, 2)],
-      [getCell(-1, 1), getCell(0, 1), getCell(1, 1)],
-      [getCell(-1, 0), getCell(0, 0), getCell(1, 0)],
+      [getCell(-2, 3), getCell(-1, 3), getCell(0, 3), getCell(1, 3), getCell(2, 3)],
+      [getCell(-2, 2), getCell(-1, 2), getCell(0, 2), getCell(1, 2), getCell(2, 2)],
+      [getCell(-2, 1), getCell(-1, 1), getCell(0, 1), getCell(1, 1), getCell(2, 1)],
+      [getCell(-2, 0), getCell(-1, 0), getCell(0, 0), getCell(1, 0), getCell(2, 0)],
     ];
   }
 
   if (orientation === 'west') {
+    // prettier-ignore
     return [
-      [getCell(1, -2), getCell(0, -2), getCell(-1, -2)],
-      [getCell(1, -1), getCell(0, -1), getCell(-1, -1)],
-      [getCell(1, 0), getCell(0, 0), getCell(-1, 0)],
+      [getCell(2, -3), getCell(1, -3), getCell(0, -3), getCell(-1, -3), getCell(-2, -3)],
+      [getCell(2, -2), getCell(1, -2), getCell(0, -2), getCell(-1, -2), getCell(-2, -2)],
+      [getCell(2, -1), getCell(1, -1), getCell(0, -1), getCell(-1, -1), getCell(-2, -1)],
+      [getCell(2, 0),  getCell(1, 0), getCell(0, 0), getCell(-1, 0), getCell(2, 0)],
     ];
   }
 
   throw new Error('Unknown orientation');
+}
+
+type TDisplay = TCoords[][];
+
+/**
+ * @example for size 3x3
+ *
+ * [{ x: -1, y: -2 }, { x: 0, y: -2 }, { x: 1, y: -2 }],
+ * [{ x: -1, y: -1 }, { x: 0, y: -1 }, { x: 1, y: -1 }],
+ * [{ x: -1, y: 0 }, { x: 0, y: 0 }, { x: 1, y: 0 }],
+ */
+export function createDisplay(size: TCoords): TDisplay {
+  if (size.x % 2 !== 1) {
+    throw new Error('only uneven display width supported');
+  }
+
+  const cellsOnSide = (size.x - 1) / 2;
+
+  return times(size.y, y =>
+    times(size.x, x => ({
+      y: y - (size.y - 1),
+      x: x - cellsOnSide,
+    })),
+  );
 }

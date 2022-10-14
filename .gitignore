@@ -1,6 +1,6 @@
 # Project specific
 metadata/
-public/
+public/bundle*
 node_modules/
 tsc-build/
 _assets

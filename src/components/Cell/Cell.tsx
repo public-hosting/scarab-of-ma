@@ -57,6 +57,7 @@ export const Cell = (props: TCellProps) => {
       borderRight: !cell?.walls[nextSide] && neighbors[nextSide]?.walls[orientation]
         ? 'none'
         : undefined,
+      zIndex: isCamera ? 10 : undefined,
     };
   }
 
