@@ -2,32 +2,55 @@ import { Fragment, useState } from 'react';
 import { Cell } from 'components/Cell/Cell';
 import { Map } from 'components/Map/Map';
 import { useGlobalDOMEvents } from 'hooks/useGlobalDOMEvents';
-import { createMaze, TCoords } from 'lib/maze';
-import { createPlayer, turnPlayer, movePlayer } from 'lib/player';
+import { createMaze, TMaze } from 'lib/maze';
+import { createPlayer, turnPlayer, movePlayer, TPlayer } from 'lib/player';
 import { createDisplay, getViewportCells } from 'lib/viewport';
+import { getItemInFront } from 'lib/items';
+import { TGame } from 'lib/game';
 
-const maze = createMaze(2);
-const initialPlayer = createPlayer();
 const display = createDisplay({ y: 4, x: 5 });
 
 export const Root = () => {
-  const [player, setPlayer] = useState(initialPlayer);
+  const [{ player, maze }, setGameState] = useState<TGame>(() => ({
+    maze: createMaze(2),
+    player: createPlayer(),
+  }));
   const viewportCells = getViewportCells(player, maze, display);
+  const { item, cell } = getItemInFront(player, maze);
+
+  const handleItemActivate = () => {
+    const { onActivate } = item || {};
+    if (item && onActivate) {
+      setGameState(state => onActivate(state, cell));
+    }
+  };
 
   const handleTurnLeft = () => {
-    setPlayer(turnPlayer(player, 'ccw'));
+    setGameState(state => ({
+      ...state,
+      player: turnPlayer(player, 'ccw'),
+    }));
   };
 
   const handleTurnRight = () => {
-    setPlayer(turnPlayer(player, 'cw'));
+    setGameState(state => ({
+      ...state,
+      player: turnPlayer(player, 'cw'),
+    }));
   };
 
   const handleGoForward = () => {
-    setPlayer(movePlayer(player, maze, 1));
+    setGameState(state => ({
+      ...state,
+      player: movePlayer(player, maze, 1),
+    }));
   };
 
   const handleGoBackward = () => {
-    setPlayer(movePlayer(player, maze, -1));
+    setGameState(state => ({
+      ...state,
+      player: movePlayer(player, maze, -1),
+    }));
   };
 
   useGlobalDOMEvents({
@@ -71,31 +94,46 @@ export const Root = () => {
         </Fragment>
       ))}
       <Map player={player} maze={maze} />
+
       <div className="controls">
-        <button
-          type="button"
-          className="controls__item"
-          onClick={handleTurnLeft}
-          tabIndex={-1}
-        >
-          {'<'}
-        </button>
-        <button
-          type="button"
-          className="controls__item"
-          onClick={handleGoForward}
-          tabIndex={-1}
-        >
-          ^
-        </button>
-        <button
-          type="button"
-          className="controls__item"
-          onClick={handleTurnRight}
-          tabIndex={-1}
-        >
-          {'>'}
-        </button>
+        <div className="controls__row">
+          <button
+            type="button"
+            tabIndex={-1}
+            className="controls__item controls__item_forward"
+            onClick={handleGoForward}
+          />
+          {item && (
+            <button
+              type="button"
+              tabIndex={-1}
+              className="controls__item controls__item_context"
+              onClick={handleItemActivate}
+            >
+              {item.message.action}
+            </button>
+          )}
+        </div>
+        <div className="controls__row">
+          <button
+            type="button"
+            className="controls__item controls__item_left"
+            onClick={handleTurnLeft}
+            tabIndex={-1}
+          />
+          <button
+            type="button"
+            tabIndex={-1}
+            className="controls__item controls__item_backward"
+            onClick={handleGoBackward}
+          />
+          <button
+            type="button"
+            tabIndex={-1}
+            className="controls__item controls__item_right"
+            onClick={handleTurnRight}
+          />
+        </div>
       </div>
     </>
   );

@@ -1,4 +1,5 @@
-import { TCoords, TMaze, TItem } from './maze';
+import { TCoords, TMaze } from './maze';
+import type { TItemType } from './items';
 import {
   TOrientation,
   OPPOSITE_SIDE,
@@ -6,10 +7,15 @@ import {
   TRotation,
 } from './orientation';
 
+export const JELLY_MAX = 100;
+export const JELLY_MIN = 0;
+
 export type TPlayer = {
   orientation: TOrientation;
   position: TCoords;
-  inventory: TItem[];
+  inventory: TItemType[];
+  // 0..100
+  jellyLevel: number;
 };
 
 export function createPlayer(): TPlayer {
@@ -20,6 +26,7 @@ export function createPlayer(): TPlayer {
       y: 0,
     },
     inventory: [],
+    jellyLevel: 0,
   };
 }
 
@@ -30,7 +37,7 @@ export function turnPlayer(player: TPlayer, direction: TRotation): TPlayer {
   };
 }
 
-const FORWARD_DELTA: { [key in TOrientation]: TCoords } = {
+export const FORWARD_DELTA: { [key in TOrientation]: TCoords } = {
   north: { x: 0, y: -1 },
   south: { x: 0, y: 1 },
   east: { x: 1, y: 0 },
@@ -61,12 +68,5 @@ export function movePlayer(
       x: position.x + orientationVector.x * delta,
       y: position.y + orientationVector.y * delta,
     },
-  };
-}
-
-export function pickItem(player: TPlayer, item: TItem): TPlayer {
-  return {
-    ...player,
-    inventory: [...player.inventory, item],
   };
 }

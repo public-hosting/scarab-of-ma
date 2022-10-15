@@ -1,5 +1,6 @@
 import { times } from './utils';
 import { TOrientation, OPPOSITE_SIDE } from './orientation';
+import { TItemType } from './items';
 
 export type TCoords = {
   x: number;
@@ -12,13 +13,11 @@ export type TWall = {
   type: TWallType;
 };
 
-export type TItem = 'key';
-
 export type TCell = TCoords & {
   walls: {
     [key in TOrientation]: TWall | null;
   };
-  item: TItem | null;
+  item: TItemType | null;
 };
 
 export type TMaze = {
@@ -144,4 +143,19 @@ function placeItems(maze: TMaze): TMaze {
 
 export function createMaze(size: number): TMaze {
   return placeItems(createMazePaths(fillCells(size)));
+}
+
+export function updateCell(
+  coords: TCoords,
+  maze: TMaze,
+  updater: (cell: TCell) => TCell,
+): TMaze {
+  return {
+    ...maze,
+    cells: maze.cells.map((row, y) =>
+      y === coords.y
+        ? row.map((cell, x) => (x === coords.x ? updater(cell) : cell))
+        : row,
+    ),
+  };
 }
