@@ -32,8 +32,6 @@ export const Root = () => {
 
   useGlobalDOMEvents({
     keydown: event => {
-      event.preventDefault();
-
       if (event.key === 'ArrowLeft') {
         handleTurnLeft();
       } else if (event.key === 'ArrowRight') {

@@ -64,7 +64,9 @@ export const Cell = (props: TCellProps) => {
       {walls.west && (
         <div className={getFaceClasses('west')} style={getFaceStyle('west')} />
       )}
-      {cell.item && <div className={`item item_${cell.item}`} />}
+      {!isCameraCell && cell.item && (
+        <div className={`item item_${cell.item}`} />
+      )}
     </div>
   );
 };
