@@ -3,7 +3,7 @@ import { TCell, TCoords, TWall } from 'lib/maze';
 import { TOrientation, getNextSide } from 'lib/orientation';
 
 type TCellProps = {
-  cell: TCell | null;
+  cell: TCell;
   position: TCoords;
   neighbors: {
     [key in TOrientation]: TCell | null;
@@ -12,16 +12,12 @@ type TCellProps = {
 
 export const Cell = (props: TCellProps) => {
   const {
-    position: { x, y },
     cell,
+    cell: { walls },
+    position: { x, y },
     neighbors,
   } = props;
 
-  if (!cell) {
-    return null;
-  }
-
-  const { walls } = cell;
   const isCameraCell = x === 0 && y === 0;
 
   const style: CSSProperties = {
@@ -34,11 +30,11 @@ export const Cell = (props: TCellProps) => {
 
     return {
       borderLeft:
-        !cell?.walls[prevSide] && neighbors[prevSide]?.walls[orientation]
+        !walls[prevSide] && neighbors[prevSide]?.walls[orientation]
           ? 'none'
           : undefined,
       borderRight:
-        !cell?.walls[nextSide] && neighbors[nextSide]?.walls[orientation]
+        !walls[nextSide] && neighbors[nextSide]?.walls[orientation]
           ? 'none'
           : undefined,
       zIndex: isCameraCell ? 10 : undefined,

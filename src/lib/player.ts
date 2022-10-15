@@ -1,4 +1,4 @@
-import { TCoords, TMaze } from './maze';
+import { TCoords, TMaze, TItem } from './maze';
 import {
   TOrientation,
   OPPOSITE_SIDE,
@@ -9,6 +9,7 @@ import {
 export type TPlayer = {
   orientation: TOrientation;
   position: TCoords;
+  inventory: TItem[];
 };
 
 export function createPlayer(): TPlayer {
@@ -18,6 +19,7 @@ export function createPlayer(): TPlayer {
       x: 0,
       y: 0,
     },
+    inventory: [],
   };
 }
 
@@ -59,5 +61,12 @@ export function movePlayer(
       x: position.x + orientationVector.x * delta,
       y: position.y + orientationVector.y * delta,
     },
+  };
+}
+
+export function pickItem(player: TPlayer, item: TItem): TPlayer {
+  return {
+    ...player,
+    inventory: [...player.inventory, item],
   };
 }

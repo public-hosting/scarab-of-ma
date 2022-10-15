@@ -12,7 +12,7 @@ export type TWall = {
   type: TWallType;
 };
 
-type TItem = 'key';
+export type TItem = 'key';
 
 export type TCell = TCoords & {
   walls: {

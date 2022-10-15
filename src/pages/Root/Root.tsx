@@ -2,7 +2,7 @@ import { Fragment, useState } from 'react';
 import { Cell } from 'components/Cell/Cell';
 import { Map } from 'components/Map/Map';
 import { useGlobalDOMEvents } from 'hooks/useGlobalDOMEvents';
-import { createMaze } from 'lib/maze';
+import { createMaze, TCoords } from 'lib/maze';
 import { createPlayer, turnPlayer, movePlayer } from 'lib/player';
 import { createDisplay, getViewportCells } from 'lib/viewport';
 
@@ -48,19 +48,26 @@ export const Root = () => {
     <>
       {display.map((row, y) => (
         <Fragment key={y}>
-          {row.map((cellPosition, x) => (
-            <Cell
-              key={x}
-              cell={viewportCells[y][x]}
-              position={cellPosition}
-              neighbors={{
-                north: viewportCells[y - 1]?.[x] || null,
-                south: viewportCells[y + 1]?.[x] || null,
-                east: viewportCells[y]?.[x + 1] || null,
-                west: viewportCells[y]?.[x - 1] || null,
-              }}
-            />
-          ))}
+          {row.map((cellPosition, x) => {
+            const cell = viewportCells[y][x];
+            if (!cell) {
+              return null;
+            }
+
+            return (
+              <Cell
+                key={`global(${cell.y},${cell.x})`}
+                cell={cell}
+                position={cellPosition}
+                neighbors={{
+                  north: viewportCells[y - 1]?.[x] || null,
+                  south: viewportCells[y + 1]?.[x] || null,
+                  east: viewportCells[y]?.[x + 1] || null,
+                  west: viewportCells[y]?.[x - 1] || null,
+                }}
+              />
+            );
+          })}
         </Fragment>
       ))}
       <Map player={player} maze={maze} />
