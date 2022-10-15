@@ -11,19 +11,21 @@ type TCellProps = {
 };
 
 export const Cell = (props: TCellProps) => {
-  const { position, cell, neighbors } = props;
+  const {
+    position: { x, y },
+    cell,
+    neighbors,
+  } = props;
 
   if (!cell) {
     return null;
   }
 
   const { walls } = cell;
-  const isCameraCell = position.x === 0 && position.y === 0;
+  const isCameraCell = x === 0 && y === 0;
 
   const style: CSSProperties = {
-    transform: `translateX(${position.x * 100}vh) translateZ(${
-      position.y * 100
-    }vh)`,
+    transform: `translateX(${x * 100}vh) translateZ(${y * 100}vh)`,
   };
 
   function getFaceStyle(orientation: TOrientation): CSSProperties {

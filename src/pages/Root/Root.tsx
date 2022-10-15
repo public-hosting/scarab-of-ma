@@ -1,13 +1,14 @@
-import { Fragment, KeyboardEvent, useState } from 'react';
+import { Fragment, useState } from 'react';
 import { Cell } from 'components/Cell/Cell';
 import { Map } from 'components/Map/Map';
-import { createMaze, TCoords } from 'lib/maze';
+import { useGlobalDOMEvents } from 'hooks/useGlobalDOMEvents';
+import { createMaze } from 'lib/maze';
 import { createPlayer, turnPlayer, movePlayer } from 'lib/player';
 import { createDisplay, getViewportCells } from 'lib/viewport';
 
-const maze = createMaze(6);
+const maze = createMaze(2);
 const initialPlayer = createPlayer();
-const display = createDisplay({ y: 4, x: 5});
+const display = createDisplay({ y: 4, x: 5 });
 
 export const Root = () => {
   const [player, setPlayer] = useState(initialPlayer);
@@ -29,19 +30,21 @@ export const Root = () => {
     setPlayer(movePlayer(player, maze, -1));
   };
 
-  const handleKeyPress = (event: KeyboardEvent) => {
-    event.preventDefault();
+  useGlobalDOMEvents({
+    keydown: event => {
+      event.preventDefault();
 
-    if (event.key === 'ArrowLeft') {
-      handleTurnLeft();
-    } else if (event.key === 'ArrowRight') {
-      handleTurnRight();
-    } else if (event.key === 'ArrowUp') {
-      handleGoForward();
-    } else if (event.key === 'ArrowDown') {
-      handleGoBackward();
-    }
-  };
+      if (event.key === 'ArrowLeft') {
+        handleTurnLeft();
+      } else if (event.key === 'ArrowRight') {
+        handleTurnRight();
+      } else if (event.key === 'ArrowUp') {
+        handleGoForward();
+      } else if (event.key === 'ArrowDown') {
+        handleGoBackward();
+      }
+    },
+  });
 
   return (
     <>
@@ -64,16 +67,11 @@ export const Root = () => {
       ))}
       <Map player={player} maze={maze} />
       <div className="controls">
-        <input
-          className="controls__capture"
-          onKeyDown={handleKeyPress}
-          tabIndex={-1}
-          autoFocus={true}
-        />
         <button
           type="button"
           className="controls__item"
           onClick={handleTurnLeft}
+          tabIndex={-1}
         >
           {'<'}
         </button>
@@ -81,6 +79,7 @@ export const Root = () => {
           type="button"
           className="controls__item"
           onClick={handleGoForward}
+          tabIndex={-1}
         >
           ^
         </button>
@@ -88,6 +87,7 @@ export const Root = () => {
           type="button"
           className="controls__item"
           onClick={handleTurnRight}
+          tabIndex={-1}
         >
           {'>'}
         </button>
