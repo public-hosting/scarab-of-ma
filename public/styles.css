@@ -83,17 +83,38 @@ html, body, #root {
 
 .cell {
   transform-style: preserve-3d;
-}
-
-.face {
   position: absolute;
   left: 50%;
   top: 50%;
   margin: -50vh;
   width: 100vh;
   height: 100vh;
+}
+
+.face {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
   border: 8px solid #000;
   background: #fff;
+}
+
+.face_north {
+  transform: translateZ(-50vh);
+}
+
+.face_south {
+  transform: translateZ(50vh);
+}
+
+.face_east {
+  transform: translateX(50vh) rotateY(-90deg);
+}
+
+.face_west {
+  transform: translateX(-50vh) rotateY(90deg);
 }
 
 .face_start {
@@ -127,6 +148,7 @@ html, body, #root {
 }
 
 .controls__item {
+  touch-action: manipulation;
   padding: 10px;
   margin: 10px;
   display: inline-block;

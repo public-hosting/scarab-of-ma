@@ -156,6 +156,14 @@ type TDisplay = TCoords[][];
  * [{ x: -1, y: -2 }, { x: 0, y: -2 }, { x: 1, y: -2 }],
  * [{ x: -1, y: -1 }, { x: 0, y: -1 }, { x: 1, y: -1 }],
  * [{ x: -1, y: 0 }, { x: 0, y: 0 }, { x: 1, y: 0 }],
+ *
+ * TODO
+ * Display should be specified like this to avoid rendering always invisible cells
+ * [
+ *   [0, 1, 1, 1, 0]
+ *   [1, 1, 1, 1, 1]
+ *   [0, 0, 1, 0, 0]
+ * ]
  */
 export function createDisplay(size: TCoords): TDisplay {
   if (size.x % 2 !== 1) {
