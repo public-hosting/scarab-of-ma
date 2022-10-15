@@ -6,16 +6,19 @@ export type TCoords = {
   y: number;
 };
 
-export type TWallType = 'plain' | 'exit';
+export type TWallType = 'plain' | 'exit' | 'start';
 
 export type TWall = {
   type: TWallType;
 };
 
+type TItem = 'key';
+
 export type TCell = TCoords & {
   walls: {
     [key in TOrientation]: TWall | null;
   };
+  item: TItem | null;
 };
 
 export type TMaze = {
@@ -61,6 +64,7 @@ function createCell(coords: { x: number; y: number }): TCell {
       north: createWall(),
       south: createWall(),
     },
+    item: null,
   };
 }
 
@@ -110,6 +114,34 @@ export function createMazePaths(maze: TMaze): TMaze {
   return maze;
 }
 
+function getFirstExistingWall(cell: TCell): TWall {
+  const existingWalls = Object.values(cell.walls).flatMap(maybeWall =>
+    maybeWall ? [maybeWall] : [],
+  );
+  if (existingWalls.length === 0) {
+    throw new Error('Cell has no walls');
+  }
+
+  return existingWalls[0];
+}
+
+function placeItems(maze: TMaze): TMaze {
+  const maxCoord = maze.size - 1;
+
+  // start
+  getFirstExistingWall(maze.cells[0][0]).type = 'start';
+
+  // exit
+  getFirstExistingWall(maze.cells[maxCoord][maxCoord]).type = 'exit';
+
+  // key
+  const keyX = Math.round(Math.random() * (maxCoord - 2)) + 1;
+  const keyY = Math.round(Math.random() * (maxCoord - 2)) + 1;
+  maze.cells[keyY][keyX].item = 'key';
+
+  return maze;
+}
+
 export function createMaze(size: number): TMaze {
-  return createMazePaths(fillCells(size));
+  return placeItems(createMazePaths(fillCells(size)));
 }

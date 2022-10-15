@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
-import { TCoords, TMaze, TOrientation } from 'lib/maze';
+import { TCoords, TMaze } from 'lib/maze';
+import { TOrientation } from 'lib/orientation';
 import { TPlayer } from 'lib/player';
 
 type TMapProps = {

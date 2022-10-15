@@ -94,7 +94,20 @@ html, body, #root {
   height: 100vh;
   border: 8px solid #000;
   background: #fff;
-  /*opacity: 0.2;*/
+}
+
+.face_start {
+  background-image: url("./images/start.jpg");
+  background-position: 50% 50%;
+  background-size: auto 90%;
+  background-repeat: no-repeat;
+}
+
+.face_exit {
+  background-image: url("./images/exit.jpg");
+  background-position: 50% 50%;
+  background-size: auto 90%;
+  background-repeat: no-repeat;
 }
 
 .controls {

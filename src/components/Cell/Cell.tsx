@@ -1,5 +1,5 @@
 import { CSSProperties } from 'react';
-import { TCell, TCoords } from 'lib/maze';
+import { TCell, TCoords, TWall } from 'lib/maze';
 import { TOrientation, getNextSide } from 'lib/orientation';
 
 type TCellProps = {
@@ -43,7 +43,8 @@ export const Cell = (props: TCellProps) => {
     return null;
   }
 
-  const isCamera = position.x === 0 && position.y === 0;
+  const { walls } = cell;
+  const isCameraCell = position.x === 0 && position.y === 0;
 
   function getFaceStyle(orientation: TOrientation): CSSProperties {
     const prevSide = getNextSide(orientation, 'ccw');
@@ -51,49 +52,40 @@ export const Cell = (props: TCellProps) => {
 
     return {
       transform: TRANSFORM_BY_FACE[orientation](position),
-      borderLeft: !cell?.walls[prevSide] && neighbors[prevSide]?.walls[orientation]
-        ? 'none'
-        : undefined,
-      borderRight: !cell?.walls[nextSide] && neighbors[nextSide]?.walls[orientation]
-        ? 'none'
-        : undefined,
-      zIndex: isCamera ? 10 : undefined,
+      borderLeft:
+        !cell?.walls[prevSide] && neighbors[prevSide]?.walls[orientation]
+          ? 'none'
+          : undefined,
+      borderRight:
+        !cell?.walls[nextSide] && neighbors[nextSide]?.walls[orientation]
+          ? 'none'
+          : undefined,
+      zIndex: isCameraCell ? 10 : undefined,
     };
+  }
+
+  function getFaceClasses(face: TWall): string {
+    return ['face', `face_${face.type}`].join(' ');
   }
 
   return (
     <>
-      {/*<div className="face" style={getFaceStyle('floor')} />*/}
-      {/*<div className="face" style={getFaceStyle('ceiling')} />*/}
-      {cell?.walls.north && (
+      {walls.north && (
         <div
-          className="face"
-          data-x={cell.x}
-          data-y={cell.y}
+          className={getFaceClasses(walls.north)}
           style={getFaceStyle('north')}
         />
       )}
-      {!isCamera && cell?.walls.south && (
+      {/* south is never visible */}
+      {walls.east && (
         <div
-          className="face"
-          data-x={cell.x}
-          data-y={cell.y}
-          style={getFaceStyle('south')}
-        />
-      )}
-      {cell?.walls.east && (
-        <div
-          className="face"
-          data-x={cell.x}
-          data-y={cell.y}
+          className={getFaceClasses(walls.east)}
           style={getFaceStyle('east')}
         />
       )}
-      {cell?.walls.west && (
+      {walls.west && (
         <div
-          className="face"
-          data-x={cell.x}
-          data-y={cell.y}
+          className={getFaceClasses(walls.west)}
           style={getFaceStyle('west')}
         />
       )}
