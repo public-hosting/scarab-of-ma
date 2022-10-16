@@ -10,10 +10,12 @@ import {
 export const JELLY_MAX = 100;
 export const JELLY_MIN = 0;
 
+type TInventoryItem = Extract<TItemType, 'key'>;
+
 export type TPlayer = {
   orientation: TOrientation;
   position: TCoords;
-  inventory: TItemType[];
+  inventory: TInventoryItem[];
   // 0..100
   jellyLevel: number;
 };

@@ -131,7 +131,7 @@ function placeItems(maze: TMaze): TMaze {
   getFirstExistingWall(maze.cells[0][0]).type = 'start';
 
   // exit
-  getFirstExistingWall(maze.cells[maxCoord][maxCoord]).type = 'exit';
+  maze.cells[maxCoord]![maxCoord]!.walls.south!.type = 'exit';
 
   // key
   const keyX = Math.round(Math.random() * (maxCoord - 2)) + 1;

@@ -2,7 +2,7 @@ import { Fragment, useState } from 'react';
 import { Cell } from 'components/Cell/Cell';
 import { Map } from 'components/Map/Map';
 import { useGlobalDOMEvents } from 'hooks/useGlobalDOMEvents';
-import { createMaze, TMaze } from 'lib/maze';
+import { createMaze } from 'lib/maze';
 import { createPlayer, turnPlayer, movePlayer, TPlayer } from 'lib/player';
 import { createDisplay, getViewportCells } from 'lib/viewport';
 import { getItemInFront } from 'lib/items';
@@ -11,10 +11,11 @@ import { TGame } from 'lib/game';
 const display = createDisplay({ y: 4, x: 5 });
 
 export const Root = () => {
-  const [{ player, maze }, setGameState] = useState<TGame>(() => ({
+  const [game, setGameState] = useState<TGame>(() => ({
     maze: createMaze(2),
     player: createPlayer(),
   }));
+  const { player, maze } = game;
   const viewportCells = getViewportCells(player, maze, display);
   const { item, cell } = getItemInFront(player, maze);
 
@@ -103,14 +104,14 @@ export const Root = () => {
             className="controls__item controls__item_forward"
             onClick={handleGoForward}
           />
-          {item && (
+          {item && item.message.action(game) && (
             <button
               type="button"
               tabIndex={-1}
               className="controls__item controls__item_context"
               onClick={handleItemActivate}
             >
-              {item.message.action}
+              {item.message.action(game)}
             </button>
           )}
         </div>
