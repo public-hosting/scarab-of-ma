@@ -159,3 +159,17 @@ export function updateCell(
     ),
   };
 }
+
+export function getNeighbors(
+  position: TCoords,
+  matrix: (TCell | null)[][],
+): { [key in TOrientation]: TCell | null } {
+  const { y, x } = position;
+
+  return {
+    north: matrix[y - 1]?.[x] || null,
+    south: matrix[y + 1]?.[x] || null,
+    east: matrix[y]?.[x + 1] || null,
+    west: matrix[y]?.[x - 1] || null,
+  };
+}

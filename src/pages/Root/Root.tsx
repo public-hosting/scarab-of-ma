@@ -2,7 +2,7 @@ import { Fragment, useState } from 'react';
 import { Cell } from 'components/Cell/Cell';
 import { Map } from 'components/Map/Map';
 import { useGlobalDOMEvents } from 'hooks/useGlobalDOMEvents';
-import { createMaze } from 'lib/maze';
+import { createMaze, getNeighbors } from 'lib/maze';
 import { createPlayer, turnPlayer, movePlayer, TPlayer } from 'lib/player';
 import { createDisplay, getViewportCells } from 'lib/viewport';
 import { getItemInFront } from 'lib/items';
@@ -12,9 +12,10 @@ const display = createDisplay({ y: 4, x: 5 });
 
 export const Root = () => {
   const [game, setGameState] = useState<TGame>(() => ({
-    maze: createMaze(2),
+    maze: createMaze(3),
     player: createPlayer(),
   }));
+  const [isMapVisible, setIsMapVisible]  = useState(false);
   const { player, maze } = game;
   const viewportCells = getViewportCells(player, maze, display);
   const { item, cell } = getItemInFront(player, maze);
@@ -83,18 +84,28 @@ export const Root = () => {
                 key={`global(${cell.y},${cell.x})`}
                 cell={cell}
                 position={cellPosition}
-                neighbors={{
-                  north: viewportCells[y - 1]?.[x] || null,
-                  south: viewportCells[y + 1]?.[x] || null,
-                  east: viewportCells[y]?.[x + 1] || null,
-                  west: viewportCells[y]?.[x - 1] || null,
-                }}
+                neighbors={getNeighbors({ x, y }, viewportCells)}
               />
             );
           })}
         </Fragment>
       ))}
-      <Map player={player} maze={maze} />
+
+      {isMapVisible && <Map player={player} maze={maze} />}
+
+      <div className="controls controls_top">
+        <button
+          type="button"
+          tabIndex={-1}
+          className="controls__item controls__item_mini controls__item_sound_on"
+        />
+        <button
+          type="button"
+          tabIndex={-1}
+          className="controls__item controls__item_mini controls__item_map"
+          onClick={() => setIsMapVisible(x => !x)}
+        />
+      </div>
 
       <div className="controls">
         <div className="controls__row">

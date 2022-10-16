@@ -78,7 +78,7 @@ html, body, #root {
   bottom: 0;
   perspective: 256px;
   overflow: hidden;
-  background: azure;
+  background: white;
 }
 
 .cell {
@@ -156,6 +156,17 @@ html, body, #root {
   text-align: center;
 }
 
+.controls_top {
+  bottom: auto;
+  top: 0;
+  text-align: left;
+  z-index: 30;
+}
+
+.controls__row {
+  position: relative;
+}
+
 .controls__item {
   touch-action: manipulation;
   display: inline-flex;
@@ -180,12 +191,14 @@ html, body, #root {
   -webkit-tap-highlight-color: transparent;
 }
 
-.controls__row {
-  position: relative;
-}
-
 .controls__item:active {
   border-bottom-width: 1px;
+}
+
+.controls__item_mini {
+  min-width: 0;
+  min-height: 32px;
+  border-radius:10px;
 }
 
 .controls__item_left {
@@ -204,6 +217,18 @@ html, body, #root {
   background-image: url("./icons/corner-right-down.svg");
 }
 
+.controls__item_map {
+  background-image: url("./icons/map.svg");
+}
+
+.controls__item_sound_on {
+  background-image: url("./icons/volume.svg");
+}
+
+.controls__item_sound_off {
+  background-image: url("./icons/volume-x.svg");
+}
+
 .controls__item_context {
   position: absolute;
   right: 0;
@@ -212,10 +237,21 @@ html, body, #root {
 
 .map {
   position: absolute;
-  top: 30px;
-  left: 30px;
-  width: 100px;
-  height: 100px;
-  background: #fff;
   z-index: 20;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0 , 0, 0.3);
+}
+
+.map__canvas {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -128px;
+  width: 256px;
+  height: 256px;
+  background: #fff;
+  box-shadow: 8px 8px 0 0 black;
 }

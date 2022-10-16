@@ -8,7 +8,7 @@ type TMapProps = {
   player: TPlayer;
 };
 
-const CELL_SIZE = 40;
+const CELL_SIZE = 64;
 const WALL_WIDTH = 2;
 
 const ORIENTATION_VECTOR: { [key in TOrientation]: TCoords } = {
@@ -31,6 +31,7 @@ export const Map = (props: TMapProps) => {
 
       if (ctx) {
         ctx.clearRect(0, 0, sidePx, sidePx);
+        ctx.fillStyle = 'black';
 
         maze.cells.forEach(row => {
           row.forEach(cell => {
@@ -73,31 +74,35 @@ export const Map = (props: TMapProps) => {
         const playerCenterX = player.position.x * CELL_SIZE + CELL_SIZE / 2;
         const playerCenterY = player.position.y * CELL_SIZE + CELL_SIZE / 2;
 
-        ctx.fillRect(
-          playerCenterX - WALL_WIDTH,
-          playerCenterY - WALL_WIDTH,
-          WALL_WIDTH * 2,
-          WALL_WIDTH * 2,
-        );
-
-        const orientationVector = ORIENTATION_VECTOR[player.orientation];
         ctx.beginPath();
         ctx.arc(
-          playerCenterX + (orientationVector.x * CELL_SIZE) / 3,
-          playerCenterY + (orientationVector.y * CELL_SIZE) / 3,
+          playerCenterX,
+          playerCenterY,
           WALL_WIDTH * 2,
           0,
           2 * Math.PI,
         );
-        ctx.fillStyle = 'green';
         ctx.fill();
-        ctx.fillStyle = 'black';
+
+        // const orientationVector = ORIENTATION_VECTOR[player.orientation];
+        // ctx.beginPath();
+        // ctx.arc(
+        //   playerCenterX + (orientationVector.x * CELL_SIZE) / 3,
+        //   playerCenterY + (orientationVector.y * CELL_SIZE) / 3,
+        //   WALL_WIDTH * 2,
+        //   0,
+        //   2 * Math.PI,
+        // );
+        // ctx.fillStyle = 'green';
+        // ctx.fill();
         ctx.closePath();
       }
     }
   }, [maze, player]);
 
   return (
-    <canvas className="map" width={sidePx} height={sidePx} ref={canvasRef} />
+    <div className="map">
+      <canvas className="map__canvas" width={sidePx} height={sidePx} ref={canvasRef} />
+    </div>
   );
 };
