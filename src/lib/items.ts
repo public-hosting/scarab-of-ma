@@ -196,3 +196,14 @@ export function getItemInFront(
     item: frontItemType ? ITEMS[frontItemType] : null,
   };
 }
+
+export function getCurrentItem(player: TPlayer, maze: TMaze): TItem | null {
+  const {
+    position: { x, y },
+  } = player;
+
+  const currentCell = maze.cells[y][x];
+  const itemType = currentCell.item;
+
+  return itemType ? ITEMS[itemType] : null;
+}

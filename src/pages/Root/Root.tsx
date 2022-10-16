@@ -1,29 +1,58 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
+
 import { Cell } from 'components/Cell/Cell';
 import { Map } from 'components/Map/Map';
+
 import { useGlobalDOMEvents } from 'hooks/useGlobalDOMEvents';
+import { useMessaging } from 'hooks/useMessaging';
+
 import { createMaze, getNeighbors } from 'lib/maze';
-import { createPlayer, turnPlayer, movePlayer, TPlayer } from 'lib/player';
+import { createPlayer, turnPlayer, movePlayer } from 'lib/player';
 import { createDisplay, getViewportCells } from 'lib/viewport';
-import { getItemInFront } from 'lib/items';
+import { getCurrentItem, getItemInFront } from 'lib/items';
 import { TGame } from 'lib/game';
 
 const display = createDisplay({ y: 4, x: 5 });
 
 export const Root = () => {
   const [game, setGameState] = useState<TGame>(() => ({
-    maze: createMaze(3),
+    maze: createMaze(2),
     player: createPlayer(),
   }));
-  const [isMapVisible, setIsMapVisible]  = useState(false);
+  const [isMapVisible, setIsMapVisible] = useState(false);
+  const { message, sendMessage } = useMessaging();
   const { player, maze } = game;
   const viewportCells = getViewportCells(player, maze, display);
   const { item, cell } = getItemInFront(player, maze);
+  const currentItem = getCurrentItem(player, maze);
+
+  useEffect(() => {
+    if (item) {
+      const message = item.message.intro(game);
+      if (message) {
+        sendMessage(message);
+      }
+    }
+  }, [item]);
+
+  useEffect(() => {
+    if (currentItem) {
+      const message = currentItem.message.pass(game);
+      if (message) {
+        sendMessage(message);
+      }
+    }
+  }, [currentItem]);
 
   const handleItemActivate = () => {
     const { onActivate } = item || {};
     if (item && onActivate) {
       setGameState(state => onActivate(state, cell));
+      const activateMessage = item.message.activated(game);
+      if (activateMessage) {
+        sendMessage(activateMessage);
+      }
     }
   };
 
@@ -90,6 +119,14 @@ export const Root = () => {
           })}
         </Fragment>
       ))}
+
+      <TransitionGroup>
+        {message && (
+          <CSSTransition key={message} classNames="message" timeout={2000}>
+            <div className="message">{message}</div>
+          </CSSTransition>
+        )}
+      </TransitionGroup>
 
       {isMapVisible && <Map player={player} maze={maze} />}
 

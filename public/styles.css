@@ -68,6 +68,7 @@ select {
 
 html, body, #root {
   overflow: hidden;
+  font-family: 'Press Start 2P', monospace;
 }
 
 #root {
@@ -172,7 +173,6 @@ html, body, #root {
   display: inline-flex;
   vertical-align: middle;
   padding: 0 16px;
-  font-family: 'Press Start 2P', monospace;
   font-size: 12px;
   color: #000;
   margin: 4px;
@@ -255,3 +255,37 @@ html, body, #root {
   background: #fff;
   box-shadow: 8px 8px 0 0 black;
 }
+
+.message {
+  position: absolute;
+  top: 92px;
+  left: 32px;
+  right: 32px;
+  padding: 8px 16px;
+  background: #fff31c;
+  border-radius: 8px;
+  font-size: 10px;
+  line-height: 1.6;
+  z-index: 20;
+}
+
+.message-enter {
+  opacity: 0.01;
+  transform: translate3d(0, -100%, 0);
+}
+
+.message-exit.message-exit-active {
+  opacity: 0.01;
+  transform: translate3d(0, 100%, 0);
+}
+
+.message-exit,
+.message-enter.message-enter-active {
+   opacity: 1;
+   transform: translate3d(0, 0, 0);
+ }
+
+.message-enter-active,
+.message-exit-active {
+   transition: opacity 300ms cubic-bezier(.39,1.37,.82,1.17), transform 300ms cubic-bezier(.39,1.37,.82,1.17);
+ }
