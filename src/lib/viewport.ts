@@ -141,7 +141,7 @@ export function getViewportCells(
       [getCell(2, -3), getCell(1, -3), getCell(0, -3), getCell(-1, -3), getCell(-2, -3)],
       [getCell(2, -2), getCell(1, -2), getCell(0, -2), getCell(-1, -2), getCell(-2, -2)],
       [getCell(2, -1), getCell(1, -1), getCell(0, -1), getCell(-1, -1), getCell(-2, -1)],
-      [getCell(2, 0),  getCell(1, 0), getCell(0, 0), getCell(-1, 0), getCell(2, 0)],
+      [getCell(2, 0),  getCell(1, 0), getCell(0, 0), getCell(-1, 0), getCell(-2, 0)],
     ];
   }
 

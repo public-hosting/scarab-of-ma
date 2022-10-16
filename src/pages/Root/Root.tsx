@@ -110,7 +110,7 @@ export const Root = () => {
 
             return (
               <Cell
-                key={`global(${cell.y},${cell.x})`}
+                key={x}
                 cell={cell}
                 position={cellPosition}
                 neighbors={getNeighbors({ x, y }, viewportCells)}

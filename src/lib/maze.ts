@@ -138,6 +138,13 @@ function placeItems(maze: TMaze): TMaze {
   const keyY = Math.round(Math.random() * (maxCoord - 2)) + 1;
   maze.cells[keyY][keyX].item = 'key';
 
+  // maze.cells[0][1].item = 'macaron';
+  // maze.cells[0][1].item = 'cake';
+  // maze.cells[0][1].item = 'monkey';
+  // maze.cells[0][1].item = 'lion';
+  // maze.cells[0][1].item = 'treadmill';
+  maze.cells[0][1].item = 'treasure';
+
   return maze;
 }
 

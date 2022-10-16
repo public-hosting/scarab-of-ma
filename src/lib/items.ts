@@ -33,6 +33,15 @@ export type TItem = {
   onPass?: (player: TPlayer) => TPlayer;
 };
 
+function removeCell(maze: TMaze, cell: TCell | null): TMaze {
+  return cell
+    ? updateCell(cell, maze, cell => ({
+      ...cell,
+      item: null,
+    }))
+    : maze
+}
+
 const ITEMS: { [key in TItemType]: TItem } = {
   key: {
     type: 'key',
@@ -43,12 +52,7 @@ const ITEMS: { [key in TItemType]: TItem } = {
       pass: () => null,
     },
     onActivate: ({ player, maze }, itemCell) => ({
-      maze: itemCell
-        ? updateCell(itemCell, maze, cell => ({
-            ...cell,
-            item: null,
-          }))
-        : maze,
+      maze: removeCell(maze, itemCell),
       player: {
         ...player,
         inventory: [...player.inventory, 'key'],
@@ -84,8 +88,8 @@ const ITEMS: { [key in TItemType]: TItem } = {
       activated: () => 'Oops you feel how jelly grows...',
       pass: () => null,
     },
-    onActivate: ({ player, ...rest }) => ({
-      ...rest,
+    onActivate: ({ player, maze }, itemCell) => ({
+      maze: removeCell(maze, itemCell),
       player: {
         ...player,
         jellyLevel: Math.max(player.jellyLevel + 25, JELLY_MAX),
@@ -100,8 +104,8 @@ const ITEMS: { [key in TItemType]: TItem } = {
       activated: () => 'Oops you feel how jelly grows...',
       pass: () => null,
     },
-    onActivate: ({ player, ...rest }) => ({
-      ...rest,
+    onActivate: ({ player, maze }, itemCell) => ({
+      maze: removeCell(maze, itemCell),
       player: {
         ...player,
         jellyLevel: Math.max(player.jellyLevel + 15, JELLY_MAX),
@@ -129,10 +133,13 @@ const ITEMS: { [key in TItemType]: TItem } = {
     message: {
       action: () => 'Kagat',
       intro: () => 'You meet monkey',
-      activated: () => 'Aaaaaaaaaaaa',
+      activated: () => 'Aaaaaaaaaaaaaaaaaaa',
       pass: () => 'You hear: My mommy is the best mommy...',
     },
-    onActivate: game => game,
+    onActivate: ({ maze, ...rest}, itemCell) => ({
+      ...rest,
+      maze: removeCell(maze, itemCell),
+    }),
   },
   lion: {
     type: 'lion',
@@ -142,8 +149,8 @@ const ITEMS: { [key in TItemType]: TItem } = {
       activated: () => 'Ok lions lets you proceed to the writers club way',
       pass: () => 'Lion ordered wines again, you tried some champagne...',
     },
-    onActivate: ({ player, ...rest }) => ({
-      ...rest,
+    onActivate: ({ player, maze }, itemCell) => ({
+      maze: removeCell(maze, itemCell),
       player: {
         ...player,
         jellyLevel: Math.max(player.jellyLevel + 15, JELLY_MAX),

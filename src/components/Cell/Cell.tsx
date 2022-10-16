@@ -22,6 +22,7 @@ export const Cell = (props: TCellProps) => {
 
   const style: CSSProperties = {
     transform: `translateX(${x * 100}vh) translateZ(${y * 100}vh)`,
+    zIndex: isCameraCell ? 10 : undefined,
   };
 
   function getFaceStyle(orientation: TOrientation): CSSProperties {
@@ -37,7 +38,6 @@ export const Cell = (props: TCellProps) => {
         !walls[nextSide] && neighbors[nextSide]?.walls[orientation]
           ? 'none'
           : undefined,
-      zIndex: isCameraCell ? 10 : undefined,
     };
   }
 
