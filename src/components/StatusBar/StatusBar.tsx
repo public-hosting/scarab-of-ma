@@ -25,24 +25,6 @@ export const StatusBar = (props: TStatusBarProps) => {
     status: true,
     status_focus: isAnimating,
   });
-  const keyClasses = classNames({
-    status__key: true,
-    status__key_preset: hasKey,
-  });
-
-  useEffect(() => {
-    if (hasKey) {
-      setIsAnimating(true);
-
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-
-      timeoutRef.current = setTimeout(() => {
-        setIsAnimating(false);
-      }, 2000);
-    }
-  }, [hasKey]);
 
   useEffect(() => {
     if (jellyLevel !== 0) {
@@ -65,7 +47,15 @@ export const StatusBar = (props: TStatusBarProps) => {
         <div className="status__bar">
           <div className="status__jelly" style={{ height: `${jellyLevel}%` }} />
         </div>
-        <div className={keyClasses} />
+        <TransitionGroup>
+          {hasKey && (
+            <CSSTransition classNames="status__inventory" timeout={1000}>
+              <div className="status__inventory">
+                <div className="status__key" />
+              </div>
+            </CSSTransition>
+          )}
+        </TransitionGroup>
       </div>
       <TransitionGroup>
         {jellyLevel >= 100 && (
