@@ -1,5 +1,5 @@
 import { TPlayer } from './player';
-import { TMaze, createMaze, TCell, TWall, createCell, TWallType } from './maze';
+import { TMaze, createMaze, TCell, TWall } from './maze';
 import type { TItemType } from './items';
 import { times } from './utils';
 
@@ -72,6 +72,13 @@ function placeItem(maze: TMaze, type: TItemType): void {
     return;
   }
 
+  // hardcode treasure to furthest coord
+  if (type === 'treasure') {
+    maze.cells[maxCoord]![maxCoord].item = type;
+
+    return;
+  }
+
   const itemX = Math.round(Math.random() * maxCoord);
   const itemY = Math.round(Math.random() * maxCoord);
 
@@ -92,7 +99,7 @@ function placeItem(maze: TMaze, type: TItemType): void {
 }
 
 function placeItems(maze: TMaze, itemsCount: TLevelItemCount): TMaze {
-  // start
+  // mark start
   getFirstExistingWall(maze.cells[0][0]).type = 'start';
 
   (Object.entries(itemsCount) as [TItemType, number][]).forEach(

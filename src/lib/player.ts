@@ -1,5 +1,4 @@
 import { TCoords, TMaze } from './maze';
-import type { TItemType } from './items';
 import {
   TOrientation,
   OPPOSITE_SIDE,
@@ -10,7 +9,7 @@ import {
 export const JELLY_MAX = 100;
 export const JELLY_MIN = 0;
 
-export type TInventoryItem = Extract<TItemType, 'key'>;
+export type TInventoryItem = 'key' | 'gift';
 
 export type TPlayer = {
   orientation: TOrientation;

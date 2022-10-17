@@ -173,6 +173,13 @@ const ITEMS: { [key in TItemType]: TItem } = {
       activated: () => null,
       pass: () => 'You probably want to return, there was a smell of gift',
     },
+    onActivate: ({ player, ...rest }) => ({
+      ...rest,
+      player: {
+        ...player,
+        inventory: [...player.inventory, 'gift'],
+      },
+    }),
   },
 };
 

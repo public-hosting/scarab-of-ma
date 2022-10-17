@@ -4,6 +4,7 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { Cell } from 'components/Cell/Cell';
 import { Map } from 'components/Map/Map';
 import { StatusBar } from 'components/StatusBar/StatusBar';
+import { Raffle } from 'components/Raffle/Raffle';
 
 import { useGlobalDOMEvents } from 'hooks/useGlobalDOMEvents';
 import { useMessaging } from 'hooks/useMessaging';
@@ -28,6 +29,7 @@ export const Root = () => {
   const viewportCells = getViewportCells(player, maze, display);
   const { item, cell } = getItemInFront(player, maze);
   const currentItem = getCurrentItem(player, maze);
+  const hasGift = player.inventory.includes('gift');
 
   useEffect(() => {
     if (item) {
@@ -138,6 +140,8 @@ export const Root = () => {
       {isMapVisible && <Map player={player} maze={maze} />}
 
       <StatusBar inventory={player.inventory} jellyLevel={player.jellyLevel} />
+
+      {hasGift && <Raffle />}
 
       <div className="controls controls_top">
         <button
