@@ -144,7 +144,7 @@ html, body, #root {
 
 .item_key {
   transform:rotateX(90deg) translateZ(-50vh);
-  background-image: url("./images/key.jpg");
+  background-image: url("./images/key.png");
   background-position: 50% 50%;
   background-size: auto 20%;
 }
@@ -342,3 +342,85 @@ html, body, #root {
 .message-exit-active {
    transition: opacity 300ms cubic-bezier(.39,1.37,.82,1.17), transform 300ms cubic-bezier(.39,1.37,.82,1.17);
  }
+
+.status {
+  position: absolute;
+  z-index: 10;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #fff31c;
+  padding: 6px;
+  border-radius: 8px 0 0 8px;
+  transition: border-radius 200ms ease, padding 200ms ease;
+}
+
+.status_focus {
+  padding: 12px;
+  border-radius: 14px 0 0 14px;
+}
+
+.status__bar {
+  height: 160px;
+  position: relative;
+  width: 6px;
+  background: #e2d92d;
+  overflow: hidden;
+  border-radius: 64px;
+  transition: width 200ms ease, border-radius 200ms ease;
+}
+
+.status_focus .status__bar {
+  width: 8px;
+}
+
+.status__jelly {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #000;
+  transition: height 800ms ease;
+  transition-delay: 120ms;
+}
+
+.status__key {
+  width: 14px;
+  height: 0;
+  margin: 4px -4px 0 -4px;
+  background-image: url(./images/key.png);
+  background-position: 50% 50%;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  transform: rotateZ(90deg);
+  transition: height 200ms ease, width 200ms ease, margin 200ms ease, transform 200ms ease;
+}
+
+@keyframes jello {
+  0% {
+    transform: scale3d(1, 1, 1);
+  }
+
+  33% {
+    transform: scale3d(1.25, 0.75, 1);
+  }
+
+  66% {
+    transform: scale3d(0.75, 1.25, 1);
+  }
+
+  100% {
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+.status__key_preset {
+  height: 14px;
+  animation: jello 400ms linear 0s 1 normal forwards;
+}
+
+.status_focus .status__key_preset {
+  width: 22px;
+  height: 20px;
+  margin: 9px -7px 0 -7px;
+}

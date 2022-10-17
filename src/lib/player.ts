@@ -10,7 +10,7 @@ import {
 export const JELLY_MAX = 100;
 export const JELLY_MIN = 0;
 
-type TInventoryItem = Extract<TItemType, 'key'>;
+export type TInventoryItem = Extract<TItemType, 'key'>;
 
 export type TPlayer = {
   orientation: TOrientation;

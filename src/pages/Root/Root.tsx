@@ -3,11 +3,12 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import { Cell } from 'components/Cell/Cell';
 import { Map } from 'components/Map/Map';
+import { StatusBar } from 'components/StatusBar/StatusBar';
 
 import { useGlobalDOMEvents } from 'hooks/useGlobalDOMEvents';
 import { useMessaging } from 'hooks/useMessaging';
 
-import { createMaze, getNeighbors } from 'lib/maze';
+import { getNeighbors } from 'lib/maze';
 import { createPlayer, turnPlayer, movePlayer } from 'lib/player';
 import { createDisplay, getViewportCells } from 'lib/viewport';
 import { getCurrentItem, getItemInFront } from 'lib/items';
@@ -39,6 +40,11 @@ export const Root = () => {
 
   useEffect(() => {
     if (currentItem) {
+      const { onPass } = currentItem;
+      if (onPass) {
+        setGameState(state => onPass(state));
+      }
+
       const message = currentItem.message.pass(game);
       if (message) {
         sendMessage(message);
@@ -130,6 +136,8 @@ export const Root = () => {
       </TransitionGroup>
 
       {isMapVisible && <Map player={player} maze={maze} />}
+
+      <StatusBar inventory={player.inventory} jellyLevel={player.jellyLevel} />
 
       <div className="controls controls_top">
         <button

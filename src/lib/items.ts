@@ -30,7 +30,7 @@ export type TItem = {
     pass: TMessageCreator;
   };
   onActivate?: (game: TGame, itemCell: TCell | null) => TGame;
-  onPass?: (player: TPlayer) => TPlayer;
+  onPass?: (game: TGame) => TGame;
 };
 
 function removeCell(maze: TMaze, cell: TCell | null): TMaze {
@@ -95,7 +95,7 @@ const ITEMS: { [key in TItemType]: TItem } = {
       maze: removeCell(maze, itemCell),
       player: {
         ...player,
-        jellyLevel: Math.max(player.jellyLevel + 25, JELLY_MAX),
+        jellyLevel: Math.min(player.jellyLevel + 30, JELLY_MAX),
       },
     }),
   },
@@ -112,7 +112,7 @@ const ITEMS: { [key in TItemType]: TItem } = {
       maze: removeCell(maze, itemCell),
       player: {
         ...player,
-        jellyLevel: Math.max(player.jellyLevel + 15, JELLY_MAX),
+        jellyLevel: Math.min(player.jellyLevel + 15, JELLY_MAX),
       },
     }),
   },
@@ -128,7 +128,7 @@ const ITEMS: { [key in TItemType]: TItem } = {
       ...rest,
       player: {
         ...player,
-        jellyLevel: Math.min(player.jellyLevel - 5, JELLY_MIN),
+        jellyLevel: Math.max(player.jellyLevel - 3, JELLY_MIN),
       },
     }),
   },
@@ -153,12 +153,15 @@ const ITEMS: { [key in TItemType]: TItem } = {
       activated: () => 'Ok lions lets you proceed to the writers club way',
       pass: () => 'Lion ordered wines again, you tried some champagne...',
     },
-    onActivate: ({ player, maze, ...rest }, itemCell) => ({
+    onActivate: ({ maze, ...rest }, itemCell) => ({
       ...rest,
       maze: removeCell(maze, itemCell),
+    }),
+    onPass: ({ player, ...rest }) => ({
+      ...rest,
       player: {
         ...player,
-        jellyLevel: Math.max(player.jellyLevel + 15, JELLY_MAX),
+        jellyLevel: Math.min(player.jellyLevel + 15, JELLY_MAX),
       },
     }),
   },
