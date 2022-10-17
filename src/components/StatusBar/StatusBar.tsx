@@ -1,5 +1,7 @@
-import { TInventoryItem } from 'lib/player';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { useEffect, useRef, useState } from 'react';
+
+import { TInventoryItem } from 'lib/player';
 
 type TStatusBarProps = {
   jellyLevel: number;
@@ -26,7 +28,7 @@ export const StatusBar = (props: TStatusBarProps) => {
   const keyClasses = classNames({
     status__key: true,
     status__key_preset: hasKey,
-  })
+  });
 
   useEffect(() => {
     if (hasKey) {
@@ -57,11 +59,20 @@ export const StatusBar = (props: TStatusBarProps) => {
   }, [jellyLevel]);
 
   return (
-    <div className={hostClasses}>
-      <div className="status__bar">
-        <div className="status__jelly" style={{ height: `${jellyLevel}%` }} />
+    <>
+      <div className={hostClasses}>
+        <div className="status__bar">
+          <div className="status__jelly" style={{ height: `${jellyLevel}%` }} />
+        </div>
+        <div className={keyClasses} />
       </div>
-      <div className={keyClasses} />
-    </div>
+      <TransitionGroup>
+        {jellyLevel >= 100 && (
+          <CSSTransition classNames="tabachoy" timeout={600}>
+            <div className="tabachoy">Tabachoy</div>
+          </CSSTransition>
+        )}
+      </TransitionGroup>
+    </>
   );
 };

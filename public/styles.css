@@ -424,3 +424,39 @@ html, body, #root {
   height: 20px;
   margin: 9px -7px 0 -7px;
 }
+
+.tabachoy {
+  position: absolute;
+  top: 24px;
+  right: 16px;
+  padding: 8px 8px 8px 32px;
+  border-radius: 8px;
+  background-color: #fff31c;
+  background-image: url(./images/taba.png);
+  background-repeat: no-repeat;
+  background-size: auto 80%;
+  background-position: 4px 50%;
+  font-size: 11px;
+  border: 2px solid #e2d92d;
+}
+
+.tabachoy-enter {
+  opacity: 0.01;
+  transform: scale(1.2);
+}
+
+.tabachoy-exit.tabachoy-exit-active {
+  opacity: 0.01;
+  transform: scale(0.7);
+}
+
+.tabachoy-exit,
+.tabachoy-enter.tabachoy-enter-active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.tabachoy-enter-active,
+.tabachoy-exit-active {
+  transition: opacity 300ms ease, transform 500ms cubic-bezier(.39,1.37,.82,1.17);
+}
