@@ -374,6 +374,26 @@ html, body, #root {
   width: 8px;
 }
 
+.status__label {
+  position: absolute;
+  top: 50%;
+  transform: rotateZ(-90deg);
+  left: 0;
+  font-size: 11px;
+  white-space: nowrap;
+  margin-top: -9px;
+  margin-left: -89px;
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 300ms ease, margin-left 300ms ease;
+  padding: 0 8px;
+  background: #fff;
+}
+
+.status_focus .status__label {
+  opacity: 1;
+}
+
 .status__jelly {
   position: absolute;
   bottom: 0;

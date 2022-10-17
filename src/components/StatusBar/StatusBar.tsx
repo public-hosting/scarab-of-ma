@@ -61,6 +61,7 @@ export const StatusBar = (props: TStatusBarProps) => {
   return (
     <>
       <div className={hostClasses}>
+        <div className="status__label">Jellies size</div>
         <div className="status__bar">
           <div className="status__jelly" style={{ height: `${jellyLevel}%` }} />
         </div>
