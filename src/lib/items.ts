@@ -6,8 +6,8 @@ import {
   createPlayer,
 } from './player';
 import type { TCell, TMaze } from './maze';
-import { TGame } from 'lib/game';
-import { createMaze, updateCell } from './maze';
+import { createLevel, TGame } from 'lib/game';
+import { updateCell } from './maze';
 
 export type TItemType =
   | 'exit'
@@ -36,10 +36,10 @@ export type TItem = {
 function removeCell(maze: TMaze, cell: TCell | null): TMaze {
   return cell
     ? updateCell(cell, maze, cell => ({
-      ...cell,
-      item: null,
-    }))
-    : maze
+        ...cell,
+        item: null,
+      }))
+    : maze;
 }
 
 const ITEMS: { [key in TItemType]: TItem } = {
@@ -51,7 +51,8 @@ const ITEMS: { [key in TItemType]: TItem } = {
       activated: () => 'You got the key',
       pass: () => null,
     },
-    onActivate: ({ player, maze }, itemCell) => ({
+    onActivate: ({ player, maze, ...rest }, itemCell) => ({
+      ...rest,
       maze: removeCell(maze, itemCell),
       player: {
         ...player,
@@ -72,8 +73,9 @@ const ITEMS: { [key in TItemType]: TItem } = {
         'The door slowly creaks open...and slams itself shut behind you!',
       pass: () => null,
     },
-    onActivate: ({ player, maze }) => ({
-      maze: createMaze(maze.size + 1),
+    onActivate: ({ player, level }) => ({
+      level: level + 1,
+      maze: createLevel(level + 1),
       player: {
         ...createPlayer(),
         jellyLevel: player.jellyLevel,
@@ -88,7 +90,8 @@ const ITEMS: { [key in TItemType]: TItem } = {
       activated: () => 'Oops you feel how jelly grows...',
       pass: () => null,
     },
-    onActivate: ({ player, maze }, itemCell) => ({
+    onActivate: ({ player, maze, ...rest }, itemCell) => ({
+      ...rest,
       maze: removeCell(maze, itemCell),
       player: {
         ...player,
@@ -104,7 +107,8 @@ const ITEMS: { [key in TItemType]: TItem } = {
       activated: () => 'Oops you feel how jelly grows...',
       pass: () => null,
     },
-    onActivate: ({ player, maze }, itemCell) => ({
+    onActivate: ({ player, maze, ...rest }, itemCell) => ({
+      ...rest,
       maze: removeCell(maze, itemCell),
       player: {
         ...player,
@@ -136,7 +140,7 @@ const ITEMS: { [key in TItemType]: TItem } = {
       activated: () => 'Aaaaaaaaaaaaaaaaaaa',
       pass: () => 'You hear: My mommy is the best mommy...',
     },
-    onActivate: ({ maze, ...rest}, itemCell) => ({
+    onActivate: ({ maze, ...rest }, itemCell) => ({
       ...rest,
       maze: removeCell(maze, itemCell),
     }),
@@ -149,7 +153,8 @@ const ITEMS: { [key in TItemType]: TItem } = {
       activated: () => 'Ok lions lets you proceed to the writers club way',
       pass: () => 'Lion ordered wines again, you tried some champagne...',
     },
-    onActivate: ({ player, maze }, itemCell) => ({
+    onActivate: ({ player, maze, ...rest }, itemCell) => ({
+      ...rest,
       maze: removeCell(maze, itemCell),
       player: {
         ...player,
@@ -177,9 +182,9 @@ export function getItemInFront(
     position: { x, y },
   } = player;
 
-  // kind of hack to make open button appear properly
-  const maxCoord = maze.size - 1;
-  if (x === maxCoord && y === maxCoord && orientation === 'south') {
+  // kind of hack to make open button appear when user reach exit instead of one cell in advance
+  const currentCell = maze.cells[y][x];
+  if (currentCell.walls[orientation]?.type === 'exit') {
     return {
       cell: null,
       item: ITEMS.exit,

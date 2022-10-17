@@ -54,7 +54,7 @@ function getNeighborEast(cell: TCell, maze: TMaze): TCell | null {
   return getNeighbor(cell, maze, { x: 1, y: 0 });
 }
 
-function createCell(coords: { x: number; y: number }): TCell {
+export function createCell(coords: { x: number; y: number }): TCell {
   return {
     ...coords,
     walls: {
@@ -113,43 +113,8 @@ export function createMazePaths(maze: TMaze): TMaze {
   return maze;
 }
 
-function getFirstExistingWall(cell: TCell): TWall {
-  const existingWalls = Object.values(cell.walls).flatMap(maybeWall =>
-    maybeWall ? [maybeWall] : [],
-  );
-  if (existingWalls.length === 0) {
-    throw new Error('Cell has no walls');
-  }
-
-  return existingWalls[0];
-}
-
-function placeItems(maze: TMaze): TMaze {
-  const maxCoord = maze.size - 1;
-
-  // start
-  getFirstExistingWall(maze.cells[0][0]).type = 'start';
-
-  // exit
-  maze.cells[maxCoord]![maxCoord]!.walls.south!.type = 'exit';
-
-  // key
-  const keyX = Math.round(Math.random() * (maxCoord - 2)) + 1;
-  const keyY = Math.round(Math.random() * (maxCoord - 2)) + 1;
-  maze.cells[keyY][keyX].item = 'key';
-
-  // maze.cells[0][1].item = 'macaron';
-  // maze.cells[0][1].item = 'cake';
-  // maze.cells[0][1].item = 'monkey';
-  // maze.cells[0][1].item = 'lion';
-  // maze.cells[0][1].item = 'treadmill';
-  maze.cells[0][1].item = 'treasure';
-
-  return maze;
-}
-
 export function createMaze(size: number): TMaze {
-  return placeItems(createMazePaths(fillCells(size)));
+  return createMazePaths(fillCells(size));
 }
 
 export function updateCell(

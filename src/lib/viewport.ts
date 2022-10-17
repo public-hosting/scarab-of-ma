@@ -92,17 +92,12 @@ export function getViewportCells(
   function getCell(dY: number, dX: number): TCell | null {
     const yIndex = playerY + dY;
     const xIndex = playerX + dX;
-    if (
-      yIndex < 0 ||
-      xIndex < 0 ||
-      yIndex >= maze.size ||
-      xIndex >= maze.size
-    ) {
+    const cell = maze.cells[yIndex]?.[xIndex];
+    if (!cell) {
       return null;
     }
 
-    return orientCell(maze.cells[yIndex][xIndex], orientation);
-    // return maze.cells[yIndex][xIndex]
+    return orientCell(cell, orientation);
   }
 
   if (orientation === 'north') {

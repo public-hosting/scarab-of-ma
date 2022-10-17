@@ -11,13 +11,14 @@ import { createMaze, getNeighbors } from 'lib/maze';
 import { createPlayer, turnPlayer, movePlayer } from 'lib/player';
 import { createDisplay, getViewportCells } from 'lib/viewport';
 import { getCurrentItem, getItemInFront } from 'lib/items';
-import { TGame } from 'lib/game';
+import { TGame, createLevel } from 'lib/game';
 
 const display = createDisplay({ y: 4, x: 5 });
 
 export const Root = () => {
   const [game, setGameState] = useState<TGame>(() => ({
-    maze: createMaze(2),
+    level: 0,
+    maze: createLevel(0),
     player: createPlayer(),
   }));
   const [isMapVisible, setIsMapVisible] = useState(false);
