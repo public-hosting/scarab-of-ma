@@ -19,8 +19,8 @@ const display = createDisplay({ y: 4, x: 5 });
 
 export const Root = () => {
   const [game, setGameState] = useState<TGame>(() => ({
-    level: 0,
-    maze: createLevel(0),
+    level: 2,
+    maze: createLevel(2),
     player: createPlayer(),
   }));
   const [isMapVisible, setIsMapVisible] = useState(false);
@@ -107,6 +107,16 @@ export const Root = () => {
     },
   });
 
+  const handleGiftReturn = () => {
+    setGameState(game => ({
+      ...game,
+      player: {
+        ...game.player,
+        inventory: game.player.inventory.filter(x => x !== 'gift'),
+      },
+    }));
+  };
+
   return (
     <>
       {display.map((row, y) => (
@@ -141,7 +151,7 @@ export const Root = () => {
 
       <StatusBar inventory={player.inventory} jellyLevel={player.jellyLevel} />
 
-      {hasGift && <Raffle />}
+      {hasGift && <Raffle onGiftReturn={handleGiftReturn} />}
 
       <div className="controls controls_top">
         <button

@@ -479,10 +479,10 @@ html, body, #root {
   transition: opacity 400ms ease, transform 400ms ease;
 }
 
+
 .status__inventory-enter-active {
   animation: inventory 800ms linear 0s 1 normal forwards;
 }
-
 .status__inventory-enter-active .status__key {
   animation: jello 400ms linear 0s 1 normal forwards;
 }
@@ -559,4 +559,238 @@ html, body, #root {
   border: 4px solid #fff31c;
   outline: none;
   margin-bottom: 32px;
+}
+
+.machine {
+  width: 310px;
+  padding-bottom: 136.2%;
+  background-image: url(./images/slot.png);
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.machine__window {
+  position: absolute;
+  background: #fff;
+  top: 144px;
+  left: 44px;
+  width: 200px;
+  height: 122px;
+  overflow: hidden;
+}
+
+.machine__window:before,
+.machine__window:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 40px;
+}
+
+.machine__window:before {
+  top: 0;
+  background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%);
+}
+.machine__window:after {
+  bottom: 0;
+  background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+}
+
+.machine__pointer {
+  position: absolute;
+  top: 191px;
+  left: 36px;
+  z-index: 10;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 15px 0 15px 22px;
+  border-color: transparent transparent transparent #e2d92d;
+}
+
+.machine__pointer:after {
+  content: '';
+  top: -11px;
+  left: -20px;
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 11px 0 11px 17px;
+  border-color: transparent transparent transparent #fff41c;
+}
+
+.machine__slot {
+  font-size: 11px;
+  line-height: 39px;
+  text-align: center;
+  border-top: 2px solid;
+}
+
+@keyframes win {
+  0% {
+    background: #fff31c;
+  }
+
+  50% {
+    background: #fff31c;
+  }
+
+  51% {
+    background: #fff;
+  }
+
+  100% {
+    background: #fff;
+  }
+}
+
+.machine__slot_winner {
+  animation: win 0.5s linear 0s 6 normal forwards;
+}
+
+@keyframes spin {
+  0% {
+    transform: translateY(246px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.machine__items {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  bottom: 0;
+}
+
+.machine__items_spinning {
+  animation: spin 0.7s cubic-bezier(.55,0,.2,.21) 0s 1 normal forwards,
+    spin 0.7s linear 0.7s 3 normal forwards,
+    spin 3s linear 2.8s 2 normal forwards,
+    spin 9s cubic-bezier(.19,.66,.27,.99) 8.8s 1 normal forwards;
+}
+
+.machine__title {
+  position: absolute;
+  left: 0;
+  right: 20px;
+  top: -42px;
+  text-align: center;
+  font-size: 21px;
+  color: #fff31c;
+}
+
+@keyframes multicolor {
+  0% {
+    color: #fd2e2e;
+  }
+
+  33.2% {
+    color: #fd2e2e;
+  }
+
+  33.3% {
+    color: #29ff29;
+  }
+
+  66.5% {
+    color: #29ff29;
+  }
+
+  66.6% {
+    color: #0096ff;
+  }
+
+  100% {
+    color: #0096ff;
+  }
+}
+
+.machine__accent {
+  animation: multicolor 1s linear 0s infinite;
+}
+
+.machine__accent:nth-child(2n) {
+  animation-delay: 0.3s;
+}
+
+.machine__accent:nth-child(3n) {
+  animation-delay: 0.6s;
+}
+
+@keyframes enter {
+  0% {
+    transform: translateX(100%) rotateZ(-43deg);
+  }
+
+  100% {
+    transform: translateX(0) rotateZ(-43deg);
+  }
+}
+
+.raffle__pika {
+  position: absolute;
+  right: -66px;
+  bottom: -56px;
+  width: 200px;
+  height: 200px;
+  background-image: url(./images/pika.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  transform: translateX(100%) rotateZ(-43deg);
+  animation: enter 3s ease 10s 1 normal forwards;
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+    transform: scale(0.8, 0.2);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1, 1);
+  }
+}
+
+.scroll {
+  position: absolute;
+  z-index: 55;
+  top: 32px;
+  left: 32px;
+  right: 32px;
+  bottom: 32px;
+  background: #f3f0d2;
+  padding: 64px 0;
+  font-size: 9px;
+  line-height: 1.5;
+  animation: appear 1s ease 0s 1 normal forwards;
+}
+
+.scroll:before,
+.scroll:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: linear-gradient(0deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.6) 100%);
+}
+
+.scroll:before {
+  top: 0;
+}
+.scroll:after {
+  bottom: 0;
+}
+
+.scroll__viewport {
+  height: 100%;
+  overflow: auto;
+  padding: 32px;
 }

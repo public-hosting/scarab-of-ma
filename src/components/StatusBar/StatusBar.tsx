@@ -2,17 +2,12 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { useEffect, useRef, useState } from 'react';
 
 import { TInventoryItem } from 'lib/player';
+import { classNames } from 'lib/classNames';
 
 type TStatusBarProps = {
   jellyLevel: number;
   inventory: TInventoryItem[];
 };
-
-function classNames(classes: Record<string, boolean>): string {
-  return Object.entries(classes)
-    .flatMap(([key, value]) => (value ? [key] : []))
-    .join(' ');
-}
 
 export const StatusBar = (props: TStatusBarProps) => {
   const { jellyLevel, inventory } = props;
