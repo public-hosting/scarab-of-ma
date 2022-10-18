@@ -567,7 +567,7 @@ html, body, #root {
 
 .machine {
   width: 310px;
-  padding-bottom: 136.2%;
+  height: 423px;
   background-image: url(./images/slot.png);
   background-size: 100% auto;
   background-repeat: no-repeat;
