@@ -90,6 +90,8 @@ html, body, #root {
   margin: -50vh;
   width: 100vh;
   height: 100vh;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 .face {
@@ -100,6 +102,8 @@ html, body, #root {
   height: 100%;
   border: 8px solid #000;
   background: #fff;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 .face_north {
@@ -526,7 +530,7 @@ html, body, #root {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0 , 0, 0.3);
+  background: rgba(0, 0 , 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;

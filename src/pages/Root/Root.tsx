@@ -15,12 +15,12 @@ import { createDisplay, getViewportCells } from 'lib/viewport';
 import { getCurrentItem, getItemInFront } from 'lib/items';
 import { TGame, createLevel } from 'lib/game';
 
-const display = createDisplay({ y: 4, x: 5 });
+const display = createDisplay({ y: 3, x: 5 });
 
 export const Root = () => {
   const [game, setGameState] = useState<TGame>(() => ({
-    level: 2,
-    maze: createLevel(2),
+    level: 0,
+    maze: createLevel(0),
     player: createPlayer(),
   }));
   const [isMapVisible, setIsMapVisible] = useState(false);

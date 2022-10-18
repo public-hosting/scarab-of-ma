@@ -19,10 +19,12 @@ export const Cell = (props: TCellProps) => {
   } = props;
 
   const isCameraCell = x === 0 && y === 0;
+  const isEastCell = x > 0;
+  const isWestCell = x < 0;
 
   const style: CSSProperties = {
     transform: `translateX(${x * 100}vh) translateZ(${y * 100}vh)`,
-    zIndex: isCameraCell ? 10 : undefined,
+    zIndex: 10 - Math.abs(x) - Math.abs(y),
   };
 
   function getFaceStyle(orientation: TOrientation): CSSProperties {
@@ -54,10 +56,10 @@ export const Cell = (props: TCellProps) => {
         />
       )}
       {/* south is never visible */}
-      {walls.east && (
+      {!isWestCell && walls.east && (
         <div className={getFaceClasses('east')} style={getFaceStyle('east')} />
       )}
-      {walls.west && (
+      {!isEastCell && walls.west && (
         <div className={getFaceClasses('west')} style={getFaceStyle('west')} />
       )}
       {!isCameraCell && cell.item && (
