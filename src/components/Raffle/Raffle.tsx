@@ -80,7 +80,7 @@ export const Raffle = (props: TRaffleProps) => {
           <div>
             <input
               className="raffle__code"
-              type="phone"
+              type="tel"
               value={code}
               onChange={handleCodeChange}
               placeholder="••"
