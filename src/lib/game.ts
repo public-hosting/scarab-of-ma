@@ -33,14 +33,14 @@ export const LEVELS: TLevel[] = [
       key: 1,
       exit: 1,
       cake: 1,
-      treadmill: 1,
+      lion: 1,
       monkey: 1,
     },
   },
   {
     size: 5,
     itemsCount: {
-      cake: 1,
+      cake: 2,
       macaron: 2,
       treadmill: 1,
       monkey: 2,

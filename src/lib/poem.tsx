@@ -1,40 +1,28 @@
 export const POEM = (
   <>
-    Monotonectally visualize future-proof
-    <br/>e-commerce whereas fully tested
+    I am inspired today
+    <br/>to compliment your celebration
+    <br/>But can't compete with you in prose
+    <br/>directed into code my passion!
     <br/>
-    <br/>internal or "organic" sources. Efficiently
-    <br/>deliver exceptional outsourcing
-    <br/>through standards compliant e-markets.
-    <br/>Monotonectally promote high-quality
+    <br/>My birthday girl, to you
+    <br/>Concept of age does little sense
+    <br/>You are too smol for it and true,
+    <br/>Look at your skin and baby face!
     <br/>
-    <br/>potentialities with bricks-and-clicks.
-    <br/>Monotonectally visualize future-proof
-    <br/>e-commerce whereas fully tested
+    <br/>Your charm is so intense my wife
+    <br/>But at the very bottom
+    <br/>You sacrifice for me your life
+    <br/>And that will not to be forgotten
     <br/>
-    <br/>internal or "organic" sources. Efficiently
-    <br/>deliver exceptional outsourcing
-    <br/>through standards compliant e-markets.
-    <br/>Monotonectally promote high-quality
+    <br/>My brave and affectionate muse,
+    <br/>That was a fortunate stroke I met you,
+    <br/>My mission is to have good use
+    <br/>In making sure you are protected.
     <br/>
-    <br/>potentialities with bricks-and-clicks.
-    <br/>Monotonectally visualize future-proof
-    <br/>e-commerce whereas fully tested
-    <br/>
-    <br/>internal or "organic" sources. Efficiently
-    <br/>deliver exceptional outsourcing
-    <br/>through standards compliant e-markets.
-    <br/>Monotonectally promote high-quality
-    <br/>
-    <br/>potentialities with bricks-and-clicks.
-    <br/>Monotonectally visualize future-proof
-    <br/>e-commerce whereas fully tested
-    <br/>
-    <br/>internal or "organic" sources. Efficiently
-    <br/>deliver exceptional outsourcing
-    <br/>through standards compliant e-markets.
-    <br/>Monotonectally promote high-quality
-    <br/>
-    <br/>potentialities with bricks-and-clicks.
+    <br/>I wish you laughters and light mood
+    <br/>Eat choco cake, so Led can join,
+    <br/>I know your time will be all good,
+    <br/>Cheers, Happy birthday, Be enjoying!
   </>
 );

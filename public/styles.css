@@ -797,4 +797,6 @@ html, body, #root {
   height: 100%;
   overflow: auto;
   padding: 32px;
+  font-family: Times, serif;
+  font-size: 15px;
 }
