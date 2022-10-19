@@ -8,6 +8,7 @@ import { Raffle } from 'components/Raffle/Raffle';
 
 import { useGlobalDOMEvents } from 'hooks/useGlobalDOMEvents';
 import { useMessaging } from 'hooks/useMessaging';
+import { useStatePersist, getPersistedState, clearPersistedState } from 'hooks/useStatePersist';
 
 import { getNeighbors } from 'lib/maze';
 import { createPlayer, turnPlayer, movePlayer } from 'lib/player';
@@ -19,11 +20,14 @@ import { classNames } from 'lib/classNames';
 const display = createDisplay({ y: 3, x: 5 });
 
 export const Root = () => {
-  const [game, setGameState] = useState<TGame>(() => ({
-    level: 0,
-    maze: createLevel(0),
-    player: createPlayer(),
-  }));
+  const [game, setGameState] = useState<TGame>(
+    () =>
+      getPersistedState() || {
+        level: 0,
+        maze: createLevel(0),
+        player: createPlayer(),
+      },
+  );
   const [isMapVisible, setIsMapVisible] = useState(false);
   const { message, sendMessage } = useMessaging();
   const [audio] = useState(() => new Audio('./audio.mp3'));
@@ -33,6 +37,8 @@ export const Root = () => {
   const { item, cell } = getItemInFront(player, maze);
   const currentItem = getCurrentItem(player, maze);
   const hasGift = player.inventory.includes('gift');
+
+  useStatePersist(game);
 
   useEffect(() => {
     if (item) {
@@ -128,6 +134,7 @@ export const Root = () => {
   const handlePoemOpen = () => {
     audio.pause();
     setIsPlaying(false);
+    clearPersistedState();
   };
 
   return (
@@ -139,6 +146,10 @@ export const Root = () => {
             if (!cell) {
               return null;
             }
+
+            // if (y === ) {
+            //   return null;
+            // }
 
             return (
               <Cell
@@ -164,17 +175,19 @@ export const Root = () => {
 
       <StatusBar inventory={player.inventory} jellyLevel={player.jellyLevel} />
 
-      {hasGift && <Raffle onGiftReturn={handleGiftReturn} onPoemOpen={handlePoemOpen} />}
+      {hasGift && (
+        <Raffle onGiftReturn={handleGiftReturn} onPoemOpen={handlePoemOpen} />
+      )}
 
       <div className="controls controls_top">
         <button
           type="button"
           tabIndex={-1}
           className={classNames({
-            'controls__item': true,
-            'controls__item_mini': true,
-            'controls__item_sound_on': isPlaying,
-            'controls__item_sound_off': !isPlaying,
+            controls__item: true,
+            controls__item_mini: true,
+            controls__item_sound_on: isPlaying,
+            controls__item_sound_off: !isPlaying,
           })}
           onClick={handleSoundToggle}
         />
