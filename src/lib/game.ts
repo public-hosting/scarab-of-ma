@@ -7,6 +7,7 @@ export type TGame = {
   player: TPlayer;
   maze: TMaze;
   level: number;
+  isStarted: boolean;
 };
 
 type TLevelItemCount = {

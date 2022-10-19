@@ -92,16 +92,16 @@ export const Raffle = (props: TRaffleProps) => {
           <button
             className="controls__item"
             type="button"
-            onClick={handleCheck}
+            onClick={onGiftReturn}
           >
-            Unlock
+            Close
           </button>
           <button
             className="controls__item"
             type="button"
-            onClick={onGiftReturn}
+            onClick={handleCheck}
           >
-            Close
+            Unlock
           </button>
         </div>
       );

@@ -8,7 +8,11 @@ import { Raffle } from 'components/Raffle/Raffle';
 
 import { useGlobalDOMEvents } from 'hooks/useGlobalDOMEvents';
 import { useMessaging } from 'hooks/useMessaging';
-import { useStatePersist, getPersistedState, clearPersistedState } from 'hooks/useStatePersist';
+import {
+  useStatePersist,
+  getPersistedState,
+  clearPersistedState,
+} from 'hooks/useStatePersist';
 
 import { getNeighbors } from 'lib/maze';
 import { createPlayer, turnPlayer, movePlayer } from 'lib/player';
@@ -26,13 +30,14 @@ export const Root = () => {
         level: 0,
         maze: createLevel(0),
         player: createPlayer(),
+        isStarted: false,
       },
   );
   const [isMapVisible, setIsMapVisible] = useState(false);
   const { message, sendMessage } = useMessaging();
   const [audio] = useState(() => new Audio('./audio.mp3'));
   const [isPlaying, setIsPlaying] = useState(false);
-  const { player, maze } = game;
+  const { player, maze, isStarted } = game;
   const viewportCells = getViewportCells(player, maze, display);
   const { item, cell } = getItemInFront(player, maze);
   const currentItem = getCurrentItem(player, maze);
@@ -137,6 +142,13 @@ export const Root = () => {
     clearPersistedState();
   };
 
+  const handleStart = () => {
+    setGameState(game => ({
+      ...game,
+      isStarted: true,
+    }));
+  };
+
   return (
     <>
       {display.map((row, y) => (
@@ -163,20 +175,83 @@ export const Root = () => {
         </Fragment>
       ))}
 
-      <TransitionGroup>
-        {message && (
-          <CSSTransition key={message} classNames="message" timeout={2000}>
-            <div className="message">{message}</div>
-          </CSSTransition>
-        )}
-      </TransitionGroup>
+      {isStarted && (
+        <>
+          <TransitionGroup>
+            {message && (
+              <CSSTransition key={message} classNames="message" timeout={2000}>
+                <div className="message">{message}</div>
+              </CSSTransition>
+            )}
+          </TransitionGroup>
 
-      {isMapVisible && <Map player={player} maze={maze} />}
+          {isMapVisible && <Map player={player} maze={maze} />}
 
-      <StatusBar inventory={player.inventory} jellyLevel={player.jellyLevel} />
+          <StatusBar
+            inventory={player.inventory}
+            jellyLevel={player.jellyLevel}
+          />
 
-      {hasGift && (
-        <Raffle onGiftReturn={handleGiftReturn} onPoemOpen={handlePoemOpen} />
+          {hasGift && (
+            <Raffle
+              onGiftReturn={handleGiftReturn}
+              onPoemOpen={handlePoemOpen}
+            />
+          )}
+
+          <div className="controls">
+            <div className="controls__row">
+              <button
+                type="button"
+                tabIndex={-1}
+                className="controls__item controls__item_forward"
+                onClick={handleGoForward}
+              />
+              {item && item.message.action(game) && (
+                <button
+                  type="button"
+                  tabIndex={-1}
+                  className="controls__item controls__item_context"
+                  onClick={handleItemActivate}
+                >
+                  {item.message.action(game)}
+                </button>
+              )}
+            </div>
+            <div className="controls__row">
+              <button
+                type="button"
+                className="controls__item controls__item_left"
+                onClick={handleTurnLeft}
+                tabIndex={-1}
+              />
+              <button
+                type="button"
+                tabIndex={-1}
+                className="controls__item controls__item_backward"
+                onClick={handleGoBackward}
+              />
+              <button
+                type="button"
+                tabIndex={-1}
+                className="controls__item controls__item_right"
+                onClick={handleTurnRight}
+              />
+            </div>
+          </div>
+        </>
+      )}
+
+      {!isStarted && (
+        <div className="intro">
+          <div className="intro__flying">
+            <h1 className="intro__title">Scarab of Ma</h1>
+            <p className="intro__description">Birthday edition</p>
+          </div>
+          <button className="controls__item" onClick={handleStart}>
+            Start
+          </button>
+        </div>
       )}
 
       <div className="controls controls_top">
@@ -191,53 +266,14 @@ export const Root = () => {
           })}
           onClick={handleSoundToggle}
         />
-        <button
-          type="button"
-          tabIndex={-1}
-          className="controls__item controls__item_mini controls__item_map"
-          onClick={() => setIsMapVisible(x => !x)}
-        />
-      </div>
-
-      <div className="controls">
-        <div className="controls__row">
+        {isStarted && (
           <button
             type="button"
             tabIndex={-1}
-            className="controls__item controls__item_forward"
-            onClick={handleGoForward}
+            className="controls__item controls__item_mini controls__item_map"
+            onClick={() => setIsMapVisible(x => !x)}
           />
-          {item && item.message.action(game) && (
-            <button
-              type="button"
-              tabIndex={-1}
-              className="controls__item controls__item_context"
-              onClick={handleItemActivate}
-            >
-              {item.message.action(game)}
-            </button>
-          )}
-        </div>
-        <div className="controls__row">
-          <button
-            type="button"
-            className="controls__item controls__item_left"
-            onClick={handleTurnLeft}
-            tabIndex={-1}
-          />
-          <button
-            type="button"
-            tabIndex={-1}
-            className="controls__item controls__item_backward"
-            onClick={handleGoBackward}
-          />
-          <button
-            type="button"
-            tabIndex={-1}
-            className="controls__item controls__item_right"
-            onClick={handleTurnRight}
-          />
-        </div>
+        )}
       </div>
     </>
   );

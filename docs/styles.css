@@ -277,6 +277,10 @@ html, body, #root {
   background-image: url("./icons/volume-x.svg");
 }
 
+.controls__item_reset {
+  background-image: url("./icons/refresh.svg");
+}
+
 .controls__item_context {
   position: absolute;
   right: 0;
@@ -799,4 +803,40 @@ html, body, #root {
   padding: 32px;
   font-family: Times, serif;
   font-size: 15px;
+}
+
+.intro {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 90;
+  padding: 0 16px;
+}
+
+.intro__title {
+  font-family: 'Nabla', cursive;
+  font-size: 50px;
+}
+
+.intro__description {
+  margin: 6px 0 48px;
+  font-size: 12px;
+  animation: multicolor 1s linear 0s infinite;
+}
+
+@keyframes fly {
+  0% {
+    transform: translateY(10px);
+  }
+
+  100% {
+    transform: translateY(-10px);
+  }
+}
+
+.intro__flying {
+  animation: fly 2000ms ease-in-out 0s infinite alternate;
 }

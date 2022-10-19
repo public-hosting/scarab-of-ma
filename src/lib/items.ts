@@ -73,7 +73,8 @@ const ITEMS: { [key in TItemType]: TItem } = {
         'The door slowly creaks open...and slams itself shut behind you!',
       pass: () => null,
     },
-    onActivate: ({ player, level }) => ({
+    onActivate: ({ player, level, ...rest }) => ({
+      ...rest,
       level: level + 1,
       maze: createLevel(level + 1),
       player: {
