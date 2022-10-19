@@ -14,6 +14,7 @@ import { createPlayer, turnPlayer, movePlayer } from 'lib/player';
 import { createDisplay, getViewportCells } from 'lib/viewport';
 import { getCurrentItem, getItemInFront } from 'lib/items';
 import { TGame, createLevel } from 'lib/game';
+import { classNames } from 'lib/classNames';
 
 const display = createDisplay({ y: 3, x: 5 });
 
@@ -25,6 +26,8 @@ export const Root = () => {
   }));
   const [isMapVisible, setIsMapVisible] = useState(false);
   const { message, sendMessage } = useMessaging();
+  const [audio] = useState(() => new Audio('./audio.mp3'));
+  const [isPlaying, setIsPlaying] = useState(false);
   const { player, maze } = game;
   const viewportCells = getViewportCells(player, maze, display);
   const { item, cell } = getItemInFront(player, maze);
@@ -117,6 +120,16 @@ export const Root = () => {
     }));
   };
 
+  const handleSoundToggle = () => {
+    audio.paused ? audio.play() : audio.pause();
+    setIsPlaying(x => !x);
+  };
+
+  const handlePoemOpen = () => {
+    audio.pause();
+    setIsPlaying(false);
+  };
+
   return (
     <>
       {display.map((row, y) => (
@@ -151,13 +164,19 @@ export const Root = () => {
 
       <StatusBar inventory={player.inventory} jellyLevel={player.jellyLevel} />
 
-      {hasGift && <Raffle onGiftReturn={handleGiftReturn} />}
+      {hasGift && <Raffle onGiftReturn={handleGiftReturn} onPoemOpen={handlePoemOpen} />}
 
       <div className="controls controls_top">
         <button
           type="button"
           tabIndex={-1}
-          className="controls__item controls__item_mini controls__item_sound_on"
+          className={classNames({
+            'controls__item': true,
+            'controls__item_mini': true,
+            'controls__item_sound_on': isPlaying,
+            'controls__item_sound_off': !isPlaying,
+          })}
+          onClick={handleSoundToggle}
         />
         <button
           type="button"

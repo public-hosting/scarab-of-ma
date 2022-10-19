@@ -4,6 +4,7 @@ import { POEM } from 'lib/poem';
 
 type TRaffleProps = {
   onGiftReturn: () => void;
+  onPoemOpen: () => void;
 }
 
 const CORRECT_CODE = '38';
@@ -23,7 +24,7 @@ const PRIZES = [
 ];
 
 export const Raffle = (props: TRaffleProps) => {
-  const { onGiftReturn } = props;
+  const { onGiftReturn, onPoemOpen } = props;
   const [code, setCode] = useState('');
   const [isCodeCorrect, setIsCodeCorrect] = useState<boolean | null>(null);
   const [isSpinning, setIsSpinning] = useState(false);
@@ -40,6 +41,7 @@ export const Raffle = (props: TRaffleProps) => {
       setTimeout(() => {
         setWinnerIndex(7);
         setTimeout(() => {
+          onPoemOpen();
           setIsScrollVisible(true);
         }, 3000);
       }, 17300);
