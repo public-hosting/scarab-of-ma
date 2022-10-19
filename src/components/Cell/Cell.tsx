@@ -22,6 +22,12 @@ export const Cell = (props: TCellProps) => {
   const isEastCell = x > 0;
   const isWestCell = x < 0;
 
+  // perf: don't render giant invisible cells
+  if (y === 0 && Math.abs(x) > 1) {
+    return null;
+  }
+  const shouldSkipSides = y === 0 &&  Math.abs(x) === 1;
+
   const style: CSSProperties = {
     transform: `translateX(${x * 100}vh) translateZ(${y * 100}vh)`,
     zIndex: 10 - Math.abs(x) - Math.abs(y),
@@ -56,13 +62,13 @@ export const Cell = (props: TCellProps) => {
         />
       )}
       {/* south is never visible */}
-      {!isWestCell && walls.east && (
+      {!shouldSkipSides && !isWestCell && walls.east && (
         <div className={getFaceClasses('east')} style={getFaceStyle('east')} />
       )}
-      {!isEastCell && walls.west && (
+      {!shouldSkipSides && !isEastCell && walls.west && (
         <div className={getFaceClasses('west')} style={getFaceStyle('west')} />
       )}
-      {!isCameraCell && cell.item && (
+      {!shouldSkipSides && !isCameraCell && cell.item && (
         <div className={`item item_${cell.item}`} />
       )}
     </div>
