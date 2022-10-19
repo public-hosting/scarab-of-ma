@@ -31,7 +31,7 @@
   "exclude": [
     "node_modules",
     "dist",
-    "public",
+    "docs",
     "tsc-build"
   ]
 }
