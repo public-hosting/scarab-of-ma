@@ -132,10 +132,12 @@ export function updateCell(
   };
 }
 
+export type TNeighborCells = { [key in TOrientation]: TCell | null };
+
 export function getNeighbors(
   position: TCoords,
   matrix: (TCell | null)[][],
-): { [key in TOrientation]: TCell | null } {
+): TNeighborCells {
   const { y, x } = position;
 
   return {

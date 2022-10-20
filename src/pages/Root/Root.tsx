@@ -1,10 +1,10 @@
 import { Fragment, useEffect, useState } from 'react';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
-import { Cell } from 'components/Cell/Cell';
 import { Map } from 'components/Map/Map';
 import { StatusBar } from 'components/StatusBar/StatusBar';
 import { Raffle } from 'components/Raffle/Raffle';
+import { MazeRender } from 'components/MazeRender/MazeRender';
 
 import { useGlobalDOMEvents } from 'hooks/useGlobalDOMEvents';
 import { useMessaging } from 'hooks/useMessaging';
@@ -13,15 +13,15 @@ import {
   getPersistedState,
   clearPersistedState,
 } from 'hooks/useStatePersist';
+import { useAssetsLoad } from 'hooks/useAssetsLoad';
 
-import { getNeighbors } from 'lib/maze';
 import { createPlayer, turnPlayer, movePlayer } from 'lib/player';
 import { createDisplay, getViewportCells } from 'lib/viewport';
 import { getCurrentItem, getItemInFront } from 'lib/items';
 import { TGame, createLevel } from 'lib/game';
 import { classNames } from 'lib/classNames';
 
-const display = createDisplay({ y: 3, x: 5 });
+const display = createDisplay({ y: 5, x: 5 });
 
 export const Root = () => {
   const [game, setGameState] = useState<TGame>(
@@ -42,6 +42,22 @@ export const Root = () => {
   const { item, cell } = getItemInFront(player, maze);
   const currentItem = getCurrentItem(player, maze);
   const hasGift = player.inventory.includes('gift');
+
+  const { assets, status } = useAssetsLoad({
+    cake: './images/cake.png',
+    treasure: './images/chest.png',
+    exit: './images/exit.png',
+    'exit-east': './images/exit-east.png',
+    'exit-west': './images/exit-west.png',
+    key: './images/key.png',
+    lion: './images/lion.png',
+    macaron: './images/macaron.png',
+    monkey: './images/monkey.png',
+    start: './images/start.png',
+    'start-east': './images/start-east.png',
+    'start-west': './images/start-west.png',
+    treadmill: './images/treadmill.png',
+  });
 
   useStatePersist(game);
 
@@ -149,31 +165,21 @@ export const Root = () => {
     }));
   };
 
+  if (status === 'loading') {
+    return <>Loading...</>;
+  }
+
+  if (status === 'error') {
+    return <>Error loading assets, please reload</>;
+  }
+
   return (
     <>
-      {display.map((row, y) => (
-        <Fragment key={y}>
-          {row.map((cellPosition, x) => {
-            const cell = viewportCells[y][x];
-            if (!cell) {
-              return null;
-            }
-
-            // if (y === ) {
-            //   return null;
-            // }
-
-            return (
-              <Cell
-                key={x}
-                cell={cell}
-                position={cellPosition}
-                neighbors={getNeighbors({ x, y }, viewportCells)}
-              />
-            );
-          })}
-        </Fragment>
-      ))}
+      <MazeRender
+        viewportCells={viewportCells}
+        display={display}
+        assets={assets}
+      />
 
       {isStarted && (
         <>

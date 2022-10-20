@@ -103,6 +103,8 @@ export function getViewportCells(
   if (orientation === 'north') {
     // prettier-ignore
     return [
+      [getCell(-4, -2), getCell(-4, -1), getCell(-4, 0), getCell(-4, 1), getCell(-4, 2)],
+      [getCell(-3, -2), getCell(-3, -1), getCell(-3, 0), getCell(-3, 1), getCell(-3, 2)],
       [getCell(-2, -2), getCell(-2, -1), getCell(-2, 0), getCell(-2, 1), getCell(-2, 2)],
       [getCell(-1, -2), getCell(-1, -1), getCell(-1, 0), getCell(-1, 1), getCell(-1, 2)],
       [getCell(0, -2),  getCell(0, -1), getCell(0, 0), getCell(0, 1), getCell(0, 2)],
@@ -112,6 +114,8 @@ export function getViewportCells(
   if (orientation === 'south') {
     // prettier-ignore
     return [
+      [getCell(4, 2), getCell(4, 1), getCell(4, 0), getCell(4, -1), getCell(4, -2)],
+      [getCell(3, 2), getCell(3, 1), getCell(3, 0), getCell(3, -1), getCell(3, -2)],
       [getCell(2, 2), getCell(2, 1), getCell(2, 0), getCell(2, -1), getCell(2, -2)],
       [getCell(1, 2), getCell(1, 1), getCell(1, 0), getCell(1, -1), getCell(1, -2)],
       [getCell(0, 2), getCell(0, 1), getCell(0, 0), getCell(0, -1), getCell(0, -2)],
@@ -121,6 +125,8 @@ export function getViewportCells(
   if (orientation === 'east') {
     // prettier-ignore
     return [
+      [getCell(-2, 4), getCell(-1, 4), getCell(0, 4), getCell(1, 4), getCell(2, 4)],
+      [getCell(-2, 3), getCell(-1, 3), getCell(0, 3), getCell(1, 3), getCell(2, 3)],
       [getCell(-2, 2), getCell(-1, 2), getCell(0, 2), getCell(1, 2), getCell(2, 2)],
       [getCell(-2, 1), getCell(-1, 1), getCell(0, 1), getCell(1, 1), getCell(2, 1)],
       [getCell(-2, 0), getCell(-1, 0), getCell(0, 0), getCell(1, 0), getCell(2, 0)],
@@ -130,6 +136,8 @@ export function getViewportCells(
   if (orientation === 'west') {
     // prettier-ignore
     return [
+      [getCell(2, -4), getCell(1, -4), getCell(0, -4), getCell(-1, -4), getCell(-2, -4)],
+      [getCell(2, -3), getCell(1, -3), getCell(0, -3), getCell(-1, -3), getCell(-2, -3)],
       [getCell(2, -2), getCell(1, -2), getCell(0, -2), getCell(-1, -2), getCell(-2, -2)],
       [getCell(2, -1), getCell(1, -1), getCell(0, -1), getCell(-1, -1), getCell(-2, -1)],
       [getCell(2, 0),  getCell(1, 0), getCell(0, 0), getCell(-1, 0), getCell(-2, 0)],
@@ -139,7 +147,7 @@ export function getViewportCells(
   throw new Error('Unknown orientation');
 }
 
-type TDisplay = TCoords[][];
+export type TDisplay = TCoords[][];
 
 /**
  * @example for size 3x3
