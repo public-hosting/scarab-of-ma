@@ -123,14 +123,14 @@ html, body, #root {
 }
 
 .face_start {
-  background-image: url("./images/start.jpg");
+  background-image: url("./images/start.jpg?4");
   background-position: 50% 50%;
   background-size: auto 90%;
   background-repeat: no-repeat;
 }
 
 .face_exit {
-  background-image: url("./images/exit.jpg");
+  background-image: url("./images/exit.jpg?4");
   background-position: 50% 50%;
   background-size: auto 90%;
   background-repeat: no-repeat;
@@ -148,7 +148,7 @@ html, body, #root {
 
 .item_key {
   transform:rotateX(90deg) translateZ(-50vh);
-  background-image: url("./images/key.png");
+  background-image: url("./images/key.png?4");
   background-position: 50% 50%;
   background-size: auto 20%;
 }
@@ -250,35 +250,35 @@ html, body, #root {
 }
 
 .controls__item_left {
-  background-image: url("./icons/corner-left-down.svg");
+  background-image: url("./icons/corner-left-down.svg?4");
 }
 
 .controls__item_forward {
-  background-image: url("./icons/arrow-up.svg");
+  background-image: url("./icons/arrow-up.svg?4");
 }
 
 .controls__item_backward {
-  background-image: url("./icons/arrow-down.svg");
+  background-image: url("./icons/arrow-down.svg?4");
 }
 
 .controls__item_right {
-  background-image: url("./icons/corner-right-down.svg");
+  background-image: url("./icons/corner-right-down.svg?4");
 }
 
 .controls__item_map {
-  background-image: url("./icons/map.svg");
+  background-image: url("./icons/map.svg?4");
 }
 
 .controls__item_sound_on {
-  background-image: url("./icons/volume.svg");
+  background-image: url("./icons/volume.svg?4");
 }
 
 .controls__item_sound_off {
-  background-image: url("./icons/volume-x.svg");
+  background-image: url("./icons/volume-x.svg?4");
 }
 
 .controls__item_reset {
-  background-image: url("./icons/refresh.svg");
+  background-image: url("./icons/refresh.svg?4");
 }
 
 .controls__item_context {
